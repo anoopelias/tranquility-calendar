@@ -1,4 +1,4 @@
-$field-width: 700px;
+$field-width: 500px;
 $grid-spacing: 5px;
 $grid-row-cells: 7;
 $grid-rows: 4;
@@ -31,7 +31,7 @@ body {
     justify-content: space-between;
     align-items: center;
     background: #d5f2e3;
-    height: $tile-size/3;
+    height: 30px;
     margin-bottom: 10px;
     border-radius: 3px;
     box-shadow: 1px 1px 1px rgba(0, 0, 0, .1);
@@ -44,8 +44,8 @@ body {
     color: #f3f1f1;
     width: 40px;
     font-size: 12px;
-    height: ($tile-size/3 - 8px);
-    line-height: ($tile-size/3 - 8px);
+    height: 22px;
+    line-height: 22px;
     text-align: center;
     cursor: pointer;
 }

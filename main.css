@@ -6,7 +6,7 @@ body {
 
 .container {
   margin: 0 auto;
-  width: 700px; }
+  width: 500px; }
 
 .calendar-container {
   display: flex;
@@ -23,7 +23,7 @@ body {
   justify-content: space-between;
   align-items: center;
   background: #d5f2e3;
-  height: 31.42524px;
+  height: 30px;
   margin-bottom: 10px;
   border-radius: 3px;
   box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.1); }
@@ -36,17 +36,17 @@ body {
   color: #f3f1f1;
   width: 40px;
   font-size: 12px;
-  height: 23.42524px;
-  line-height: 23.42524px;
+  height: 22px;
+  line-height: 22px;
   text-align: center;
   cursor: pointer; }
 
 .cell {
   text-align: center;
-  height: 94.27571px;
-  line-height: 94.27571px;
+  height: 65.70429px;
+  line-height: 65.70429px;
   background: #f7d0d0;
-  width: 94.27571px;
+  width: 65.70429px;
   border-radius: 3px;
   margin: 2.5px;
   box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.1);
@@ -54,10 +54,10 @@ body {
 
 .head-cell {
   text-align: center;
-  height: 47.13786px;
-  line-height: 47.13786px;
+  height: 32.85214px;
+  line-height: 32.85214px;
   background: #ffa6a6;
-  width: 94.27571px;
+  width: 65.70429px;
   border-radius: 3px;
   margin: 2.5px;
   text-align: center;

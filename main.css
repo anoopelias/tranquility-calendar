@@ -1,0 +1,64 @@
+body {
+  background: #f3f1f1;
+  margin: 80px 0;
+  font-family: "Clear Sans", "Helvetica Neue", Arial, sans-serif;
+  color: #735e5e; }
+
+.container {
+  margin: 0 auto;
+  width: 700px; }
+
+.calendar-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  background: #B2EDCE;
+  border-radius: 3px;
+  padding: 2.5px;
+  box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.1); }
+
+.month-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  background: #d5f2e3;
+  height: 31.42524px;
+  margin-bottom: 10px;
+  border-radius: 3px;
+  box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.1); }
+
+.month-control {
+  margin: 0 10px 0 10px;
+  background: #c47070;
+  border-radius: 3px;
+  box-shadow: 1px 2px 3px rgba(0, 0, 0, 0.2);
+  color: #f3f1f1;
+  width: 40px;
+  font-size: 12px;
+  height: 23.42524px;
+  line-height: 23.42524px;
+  text-align: center;
+  cursor: pointer; }
+
+.cell {
+  text-align: center;
+  height: 94.27571px;
+  line-height: 94.27571px;
+  background: #f7d0d0;
+  width: 94.27571px;
+  border-radius: 3px;
+  margin: 2.5px;
+  box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.1);
+  font-size: 28px; }
+
+.head-cell {
+  text-align: center;
+  height: 47.13786px;
+  line-height: 47.13786px;
+  background: #ffa6a6;
+  width: 94.27571px;
+  border-radius: 3px;
+  margin: 2.5px;
+  text-align: center;
+  box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.1); }

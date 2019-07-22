@@ -8,7 +8,7 @@ $grid-border-radius: 3px;
 $tile-size: (($field-width - $grid-spacing * ($grid-row-cells + 1)) / $grid-row-cells) - 0.01;
 
 body {
-    background: rgb(243, 241, 241);
+    background: #f3f1f1;
     margin: 80px 0;
     font-family: "Clear Sans", "Helvetica Neue", Arial, sans-serif;
     color: #735e5e;
@@ -21,7 +21,7 @@ body {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    background: #B2EDCE;
+    background: #b2edce;
     border-radius: $grid-border-radius;
     padding: ($grid-spacing/2);
     box-shadow: 1px 1px 1px rgba(0, 0, 0, .1);
@@ -41,6 +41,7 @@ body {
     margin: 0 $grid-spacing 0 $grid-spacing;
     background: #c47070;
     border-radius: $grid-border-radius;
+    // Bigger shadow since this is clickable
     box-shadow: 1px 2px 3px rgba(0, 0, 0, .2);
     color: #f3f1f1;
     width: 40px;
@@ -68,13 +69,9 @@ body {
     background: #3bb876;
 }
 .head-cell {
-    text-align: center;
+    @extend .cell;
+    font-size: 16px;
     height: $tile-size / 2;
     line-height: $tile-size / 2;
     background: #ffa6a6;
-    width: $tile-size;
-    margin: ($grid-spacing/2);
-    border-radius: $grid-border-radius;
-    text-align: center;
-    box-shadow: 1px 1px 1px rgba(0, 0, 0, .1);
 }

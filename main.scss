@@ -2,6 +2,7 @@ $field-width: 500px;
 $grid-spacing: 5px;
 $grid-row-cells: 7;
 $grid-rows: 4;
+$grid-border-radius: 3px;
 
 // 0.01 offset needed for Firefox
 $tile-size: (($field-width - $grid-spacing * ($grid-row-cells + 1)) / $grid-row-cells) - 0.01;
@@ -21,7 +22,7 @@ body {
     flex-wrap: wrap;
     justify-content: center;
     background: #B2EDCE;
-    border-radius: 3px;
+    border-radius: $grid-border-radius;
     padding: ($grid-spacing/2);
     box-shadow: 1px 1px 1px rgba(0, 0, 0, .1);
 }
@@ -33,13 +34,13 @@ body {
     background: #d5f2e3;
     height: 30px;
     margin-bottom: 10px;
-    border-radius: 3px;
+    border-radius: $grid-border-radius;
     box-shadow: 1px 1px 1px rgba(0, 0, 0, .1);
 }
 .month-control {
     margin: 0 $grid-spacing 0 $grid-spacing;
     background: #c47070;
-    border-radius: 3px;
+    border-radius: $grid-border-radius;
     box-shadow: 1px 2px 3px rgba(0, 0, 0, .2);
     color: #f3f1f1;
     width: 40px;
@@ -55,7 +56,7 @@ body {
     line-height: $tile-size;
     background: #f7d0d0;
     width: $tile-size;
-    border-radius: 3px;
+    border-radius: $grid-border-radius;
     margin: ($grid-spacing/2);
     box-shadow: 1px 1px 1px rgba(0, 0, 0, .1);
     font-size: 28px;
@@ -72,8 +73,8 @@ body {
     line-height: $tile-size / 2;
     background: #ffa6a6;
     width: $tile-size;
-    border-radius: 3px;
     margin: ($grid-spacing/2);
+    border-radius: $grid-border-radius;
     text-align: center;
     box-shadow: 1px 1px 1px rgba(0, 0, 0, .1);
 }

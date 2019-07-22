@@ -1,6 +1,17 @@
 (function() {
-    const monthNames = ["January", "February", "March", "April", "May", "June",
-      "July", "August", "September", "October", "November", "December"
+    const monthNames = [
+        "January",
+        "February",
+        "March",
+        "April",
+        "May",
+        "June",
+        "July",
+        "August",
+        "September",
+        "October",
+        "November",
+        "December"
     ];
 
     function getLastDateOfMonth(year, month) {
@@ -29,29 +40,30 @@
     }
 
     function isLeapYear(year) {
-        return ((year % 4 == 0) && (year % 100 != 0)) || (year % 400 == 0);
+        return (year % 4 == 0 && year % 100 != 0) || year % 400 == 0;
     }
 
     function getDatesOfMonth(year, month) {
         const datesOfMonth = [];
         const firstDayOfMonth = new Date(year, month - 1, 1).getDay();
-        let lastDateOfPrevMonth = (month === 1) ?
-            getLastDateOfMonth(year - 1, 12) :
-            getLastDateOfMonth(year, month - 1);
+        let lastDateOfPrevMonth =
+            month === 1
+                ? getLastDateOfMonth(year - 1, 12)
+                : getLastDateOfMonth(year, month - 1);
 
-        for (let i=firstDayOfMonth - 1; i>=0; i--) {
+        for (let i = firstDayOfMonth - 1; i >= 0; i--) {
             datesOfMonth.unshift({
                 date: lastDateOfPrevMonth--,
-                selectable: false,
+                selectable: false
             });
         }
 
         const lastDateOfThisMonth = getLastDateOfMonth(year, month);
 
-        for (let i=1; i<=lastDateOfThisMonth; i++) {
+        for (let i = 1; i <= lastDateOfThisMonth; i++) {
             datesOfMonth.push({
                 date: i,
-                selectable: true,
+                selectable: true
             });
         }
 
@@ -59,7 +71,7 @@
         while (datesOfMonth.length <= 42) {
             datesOfMonth.push({
                 date: i++,
-                selectable: false,
+                selectable: false
             });
         }
 
@@ -69,18 +81,22 @@
     function setDate(year, month, day) {
         let datesOfMonth = getDatesOfMonth(year, month);
         $(".calendar-container .cell").removeClass("cell-disabled");
-        $(".calendar-container .cell").each(function (index) {
-            $(this).text(datesOfMonth[index].date)
-            if(!datesOfMonth[index].selectable) {
+        $(".calendar-container .cell").each(function(index) {
+            $(this).text(datesOfMonth[index].date);
+            if (!datesOfMonth[index].selectable) {
                 $(this).addClass("cell-disabled");
             }
         });
 
         $(".calendar-container .cell").removeClass("cell-selected");
         if (!isNaN(day) && day <= 42) {
-            $(".calendar-container .cell").filter(function(index) {
-                return $(this).text() == day && datesOfMonth[index].selectable;
-            }).addClass("cell-selected");
+            $(".calendar-container .cell")
+                .filter(function(index) {
+                    return (
+                        $(this).text() == day && datesOfMonth[index].selectable
+                    );
+                })
+                .addClass("cell-selected");
         }
         $("#month").text(monthNames[month - 1] + " " + year);
     }
@@ -90,8 +106,8 @@
         return {
             year: 1900 + today.getYear(),
             month: today.getMonth() + 1,
-            day: today.getDate(),
-        }
+            day: today.getDate()
+        };
     }
 
     function highlightDate(year, month) {
@@ -104,7 +120,6 @@
     }
 
     $("#next").click(function() {
-
         if (date.month === 12) {
             date.month = 1;
             date.year++;
@@ -130,7 +145,7 @@
 
     function init() {
         // Add all cells
-        for (let i=0; i<42; i++) {
+        for (let i = 0; i < 42; i++) {
             $(".calendar-container").append("<div class='cell'></div>");
         }
         date = getToday();
@@ -139,5 +154,4 @@
 
     let date;
     init();
-
 })();

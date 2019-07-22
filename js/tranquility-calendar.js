@@ -43,17 +43,34 @@
         return (year % 4 == 0 && year % 100 != 0) || year % 400 == 0;
     }
 
+    function getPrevMonth(year, month) {
+        return {
+            month: month === 1 ? 12 : month - 1,
+            year: month === 1 ? year - 1 : year
+        };
+    }
+
+    function getNextMonth(year, month) {
+        return {
+            month: month === 12 ? 1 : month + 1,
+            year: month === 12 ? year + 1 : year
+        };
+    }
+
     function getDatesOfMonth(year, month) {
         const datesOfMonth = [];
         const firstDayOfMonth = new Date(year, month - 1, 1).getDay();
-        let lastDateOfPrevMonth =
-            month === 1
-                ? getLastDateOfMonth(year - 1, 12)
-                : getLastDateOfMonth(year, month - 1);
+        const prevMonth = getPrevMonth(year, month);
+
+        let lastDateOfPrevMonth = getLastDateOfMonth(prevMonth.year, prevMonth.month);
 
         for (let i = firstDayOfMonth - 1; i >= 0; i--) {
             datesOfMonth.unshift({
-                date: lastDateOfPrevMonth--,
+                date: {
+                    year: prevMonth.year,
+                    month: prevMonth.month,
+                    day: lastDateOfPrevMonth--
+                },
                 selectable: false
             });
         }
@@ -62,15 +79,24 @@
 
         for (let i = 1; i <= lastDateOfThisMonth; i++) {
             datesOfMonth.push({
-                date: i,
+                date: {
+                    year: year,
+                    month: month,
+                    day: i
+                },
                 selectable: true
             });
         }
 
+        const nextMonth = getNextMonth(year, month);
         let i = 1;
         while (datesOfMonth.length <= 42) {
             datesOfMonth.push({
-                date: i++,
+                date: {
+                    year: nextMonth.year,
+                    month: nextMonth.month,
+                    day: i++,
+                },
                 selectable: false
             });
         }
@@ -81,7 +107,7 @@
     function setCalendarGrid(datesOfMonth) {
         $(".calendar-container .cell").removeClass("cell-disabled");
         $(".calendar-container .cell").each(function(index) {
-            $(this).text(datesOfMonth[index].date);
+            $(this).text(datesOfMonth[index].date.day);
             if (!datesOfMonth[index].selectable) {
                 $(this).addClass("cell-disabled");
             }
@@ -131,25 +157,13 @@
     }
 
     $("#next").click(function() {
-        if (date.month === 12) {
-            date.month = 1;
-            date.year++;
-        } else {
-            date.month++;
-        }
-
+        date = getNextMonth(date.year, date.month);
         date.day = highlightDate(date.year, date.month);
         setDate(date.year, date.month, date.day);
     });
 
     $("#previous").click(function() {
-        if (date.month === 1) {
-            date.month = 12;
-            date.year--;
-        } else {
-            date.month--;
-        }
-
+        date = getPrevMonth(date.year, date.month);
         date.day = highlightDate(date.year, date.month);
         setDate(date.year, date.month, date.day);
     });

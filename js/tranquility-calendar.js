@@ -3,23 +3,33 @@
       "July", "August", "September", "October", "November", "December"
     ];
 
-    function setDate(year, month, day) {
-        let datesOfMonth = getDatesOfMonth(year, month);
-        $(".calendar-container .cell").removeClass("cell-disabled");
-        $(".calendar-container .cell").each(function (index) {
-            $(this).text(datesOfMonth[index].date)
-            if(!datesOfMonth[index].selectable) {
-                $(this).addClass("cell-disabled");
-            }
-        });
-
-        $(".calendar-container .cell").removeClass("cell-selected");
-        if (!isNaN(day) && day <= 42) {
-            $(".calendar-container .cell").filter(function(index) {
-                return $(this).text() == day && datesOfMonth[index].selectable;
-            }).addClass("cell-selected");
+    function getLastDateOfMonth(year, month) {
+        switch (month) {
+            case 1:
+            case 3:
+            case 5:
+            case 7:
+            case 8:
+            case 10:
+            case 12:
+                return 31;
+                break;
+            case 4:
+            case 6:
+            case 9:
+            case 11:
+                return 30;
+                break;
+            case 2:
+                if (isLeapYear(year)) {
+                    return 29;
+                }
+                return 28;
         }
-        $("#month").text(monthNames[month - 1] + " " + year);
+    }
+
+    function isLeapYear(year) {
+        return ((year % 4 == 0) && (year % 100 != 0)) || (year % 400 == 0);
     }
 
     function getDatesOfMonth(year, month) {
@@ -56,42 +66,23 @@
         return datesOfMonth;
     }
 
-    function getLastDateOfMonth(year, month) {
-        switch (month) {
-            case 1:
-            case 3:
-            case 5:
-            case 7:
-            case 8:
-            case 10:
-            case 12:
-                return 31;
-                break;
-            case 4:
-            case 6:
-            case 9:
-            case 11:
-                return 30;
-                break;
-            case 2:
-                if (isLeapYear(year)) {
-                    return 29;
-                }
-                return 28;
-        }
-    }
+    function setDate(year, month, day) {
+        let datesOfMonth = getDatesOfMonth(year, month);
+        $(".calendar-container .cell").removeClass("cell-disabled");
+        $(".calendar-container .cell").each(function (index) {
+            $(this).text(datesOfMonth[index].date)
+            if(!datesOfMonth[index].selectable) {
+                $(this).addClass("cell-disabled");
+            }
+        });
 
-    function isLeapYear(year) {
-        return ((year % 4 == 0) && (year % 100 != 0)) || (year % 400 == 0);
-    }
-
-    function init() {
-        // Add all cells
-        for (let i=0; i<42; i++) {
-            $(".calendar-container").append("<div class='cell'></div>");
+        $(".calendar-container .cell").removeClass("cell-selected");
+        if (!isNaN(day) && day <= 42) {
+            $(".calendar-container .cell").filter(function(index) {
+                return $(this).text() == day && datesOfMonth[index].selectable;
+            }).addClass("cell-selected");
         }
-        date = getToday();
-        setDate(date.year, date.month, date.day);
+        $("#month").text(monthNames[month - 1] + " " + year);
     }
 
     function getToday() {
@@ -111,9 +102,6 @@
             return today.day;
         }
     }
-
-    let date;
-    init();
 
     $("#next").click(function() {
 
@@ -139,4 +127,17 @@
         date.day = highlightDate(date.year, date.month);
         setDate(date.year, date.month, date.day);
     });
+
+    function init() {
+        // Add all cells
+        for (let i=0; i<42; i++) {
+            $(".calendar-container").append("<div class='cell'></div>");
+        }
+        date = getToday();
+        setDate(date.year, date.month, date.day);
+    }
+
+    let date;
+    init();
+
 })();

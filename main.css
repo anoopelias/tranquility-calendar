@@ -52,6 +52,12 @@ body {
   box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.1);
   font-size: 28px; }
 
+.cell-disabled {
+  opacity: 0.5; }
+
+.cell-selected {
+  background: #3bb876; }
+
 .head-cell {
   text-align: center;
   height: 32.85214px;

@@ -62,7 +62,10 @@
         const firstDayOfMonth = new Date(year, month - 1, 1).getDay();
         const prevMonth = getPrevMonth(year, month);
 
-        let lastDateOfPrevMonth = getLastDateOfMonth(prevMonth.year, prevMonth.month);
+        let lastDateOfPrevMonth = getLastDateOfMonth(
+            prevMonth.year,
+            prevMonth.month
+        );
 
         for (let i = firstDayOfMonth - 1; i >= 0; i--) {
             datesOfMonth.unshift({
@@ -95,7 +98,7 @@
                 date: {
                     year: nextMonth.year,
                     month: nextMonth.month,
-                    day: i++,
+                    day: i++
                 },
                 selectable: false
             });

@@ -78,8 +78,7 @@
         return datesOfMonth;
     }
 
-    function setDate(year, month, day) {
-        let datesOfMonth = getDatesOfMonth(year, month);
+    function setCalendarGrid(datesOfMonth) {
         $(".calendar-container .cell").removeClass("cell-disabled");
         $(".calendar-container .cell").each(function(index) {
             $(this).text(datesOfMonth[index].date);
@@ -87,7 +86,9 @@
                 $(this).addClass("cell-disabled");
             }
         });
+    }
 
+    function setDay(day, datesOfMonth) {
         $(".calendar-container .cell").removeClass("cell-selected");
         if (!isNaN(day) && day <= 42) {
             $(".calendar-container .cell")
@@ -98,7 +99,17 @@
                 })
                 .addClass("cell-selected");
         }
+    }
+
+    function setYearMonth(year, month) {
         $("#month").text(monthNames[month - 1] + " " + year);
+    }
+
+    function setDate(year, month, day) {
+        let datesOfMonth = getDatesOfMonth(year, month);
+        setCalendarGrid(datesOfMonth);
+        setDay(day, datesOfMonth);
+        setYearMonth(year, month);
     }
 
     function getToday() {

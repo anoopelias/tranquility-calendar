@@ -1,0 +1,22 @@
+{
+  "name": "tranquility-calendar",
+  "version": "0.0.1",
+  "description": "",
+  "main": "js/index.js",
+  "scripts": {
+    "prettify": "prettier --tab-width 4 --write js/tranquility-calendar.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/anoopelias/tranquility-calendar.git"
+  },
+  "author": "Anoop Elias",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/anoopelias/tranquility-calendar/issues"
+  },
+  "homepage": "https://github.com/anoopelias/tranquility-calendar#readme",
+  "devDependencies": {
+    "prettier": "^1.18.2"
+  }
+}

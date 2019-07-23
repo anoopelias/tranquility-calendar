@@ -14,7 +14,7 @@
         "December"
     ];
 
-    function getLastDateOfMonth(year, month) {
+    function getLastDateOfMonth(isLeapYear, month) {
         switch (month) {
             case 1:
             case 3:
@@ -24,15 +24,13 @@
             case 10:
             case 12:
                 return 31;
-                break;
             case 4:
             case 6:
             case 9:
             case 11:
                 return 30;
-                break;
             case 2:
-                if (isLeapYear(year)) {
+                if (isLeapYear) {
                     return 29;
                 }
                 return 28;
@@ -57,13 +55,120 @@
         };
     }
 
+    function tranqToGregYear(tranqYear) {
+        let gregYear = tranqYear + 1969;
+        if (tranqYear >= 1) {
+            gregYear--;
+        }
+
+        return gregYear;
+    }
+
+    const gregToTranqLookupTable = generateGregToTranqLookupTable();
+    const gregToTranqLeapLookupTable = generateGregToTranqLookupTable(true);
+
+    function generateGregToTranqLookupTable(isLeapYear) {
+        // 01/01 Greg is 25/06 Tranq
+        let month = 6;
+        let day = 25;
+        let nextYear = false;
+
+        const lookup = [];
+        for (let i = 1; i <= 12; i++) {
+            const months = [];
+            for (let j = 1; j <= getLastDateOfMonth(isLeapYear, i); j++) {
+                months.push({
+                    month: month,
+                    day: day++,
+                    nextYear: nextYear
+                });
+
+                // Amstrong day is last day of the year,
+                // so reset month and day
+                if (month > 13) {
+                    months[j - 1].amstrongDay = true;
+                    month = 1;
+                    day = 1;
+                    nextYear = true;
+                }
+
+                // Aldrin day is leap day and will not count in its Tranq month,
+                // so go back day by 1
+                if (isLeapYear && i === 2 && j === 29) {
+                    months[j - 1].aldrinDay = true;
+                    day--;
+                }
+
+                if (day > 28) {
+                    day = 1;
+                    month++;
+                }
+            }
+            lookup.push(months);
+        }
+
+        return lookup;
+    }
+
+    function gregToTranqYear(gregYear) {
+        // For year conversion, look at the sample below,
+        //
+        // 67-68       -2L
+        // 68-69       -1
+        // 69-70       1
+        // 70-71       2
+        // 71-72       3L
+        // 72-73       4
+        // 69-70       5
+        // 70-71       6
+        // 71-72       7L
+        // 72-73       8
+        //
+        // L - is a leap year
+        // Please note that there is no '0' Tranq year
+        //
+
+        let tranqYear = gregYear - 1969;
+        if (gregYear > 1969) {
+            tranqYear++;
+        }
+
+        return tranqYear;
+    }
+
+    function isTranqLeapYear(tranqYear) {
+        // Feb 29 is in the next greg year, hence the '  + 1' below.
+        return isLeapYear(gregToTranqYear(tranqYear) + 1);
+    }
+
+    function gregToTranq(date) {
+        let lookupTable;
+        if (isLeapYear(date.year)) {
+            lookupTable = gregToTranqLeapLookupTable;
+        } else {
+            lookupTable = gregToTranqLookupTable;
+        }
+        // Do a shallow copy since the object could be changed
+        const tranqDate = Object.assign(
+            {},
+            lookupTable[date.month - 1][date.day - 1]
+        );
+
+        if (tranqDate.nextYear) {
+            tranqDate.year = gregToTranqYear(date.year);
+        } else {
+            tranqDate.year = gregToTranqYear(date.year - 1);
+        }
+
+        return tranqDate;
+    }
     function getDatesOfMonth(year, month) {
         const datesOfMonth = [];
         const firstDayOfMonth = new Date(year, month - 1, 1).getDay();
         const prevMonth = getPrevMonth(year, month);
 
         let lastDateOfPrevMonth = getLastDateOfMonth(
-            prevMonth.year,
+            isLeapYear(prevMonth.year),
             prevMonth.month
         );
 
@@ -78,7 +183,7 @@
             });
         }
 
-        const lastDateOfThisMonth = getLastDateOfMonth(year, month);
+        const lastDateOfThisMonth = getLastDateOfMonth(isLeapYear(year), month);
 
         for (let i = 1; i <= lastDateOfThisMonth; i++) {
             datesOfMonth.push({
@@ -111,6 +216,10 @@
         $(".calendar-container .cell").removeClass("cell-disabled");
         $(".calendar-container .cell").each(function(index) {
             $(this).text(datesOfMonth[index].date.day);
+            console.log(
+                "Tranquility date",
+                gregToTranq(datesOfMonth[index].date)
+            );
             if (!datesOfMonth[index].selectable) {
                 $(this).addClass("cell-disabled");
             }

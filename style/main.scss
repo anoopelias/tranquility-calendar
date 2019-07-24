@@ -1,4 +1,4 @@
-$field-width: 500px;
+$field-width: 700px;
 $grid-spacing: 5px;
 $grid-row-cells: 7;
 $grid-rows: 4;
@@ -7,6 +7,11 @@ $grid-border-radius: 3px;
 // FIXME: 0.01 offset needed for Firefox
 $tile-size: (($field-width - $grid-spacing * ($grid-row-cells + 1)) / $grid-row-cells) - 0.01;
 
+.center-align {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
 body {
     background: #f3f1f1;
     margin: 80px 0;
@@ -52,9 +57,9 @@ body {
     cursor: pointer;
 }
 .cell {
-    text-align: center;
+    display: flex;
+    flex-direction: column;
     height: $tile-size;
-    line-height: $tile-size;
     background: #f7d0d0;
     width: $tile-size;
     border-radius: $grid-border-radius;
@@ -66,10 +71,26 @@ body {
     opacity: 0.5;
 }
 .cell-selected {
-    background: #3bb876;
+    background: #ffe1e1;
+}
+.cell-value {
+    @extend .center-align;
+    flex-grow: 2;
+    font-size: 28px
+}
+.cell-subtext {
+    display: flex;
+    flex-direction: column;
+    color: #b89898;
+    font-size: 12px;
+}
+.cell-sub-inner {
+    @extend .center-align;
+    margin: 2px;
 }
 .head-cell {
     @extend .cell;
+    @extend .center-align;
     font-size: 16px;
     height: $tile-size / 2;
     line-height: $tile-size / 2;

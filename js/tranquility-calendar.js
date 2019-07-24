@@ -1,5 +1,5 @@
 (function() {
-    const monthNames = [
+    const gregMonthNames = [
         "January",
         "February",
         "March",
@@ -12,6 +12,22 @@
         "October",
         "November",
         "December"
+    ];
+
+    const tranqMonthNames = [
+        "Archimedes",
+        "Brahe",
+        "Copernicus",
+        "Darwin",
+        "Einstein",
+        "Faraday",
+        "Galileo",
+        "Hippocrates",
+        "Imhotep",
+        "Jung",
+        "Kepler",
+        "Lavoisier",
+        "Mendel"
     ];
 
     function getLastDateOfMonth(isLeapYear, month) {
@@ -212,41 +228,66 @@
         return datesOfMonth;
     }
 
+    function getTranqYearStr(date) {
+        if (date.year > 0) {
+            return date.year + " AT";
+        } else {
+            return date.year + " BT";
+        }
+    }
+
+    function getTranqDateStr(date) {
+        if (date.aldrinDay) {
+            return "Aldrin Day";
+        } else if (date.amstrongDay) {
+            return "Amstrong Day";
+        } else {
+            return tranqMonthNames[date.month - 1] + " " + date.day;
+        }
+    }
+
     function setCalendarGrid(datesOfMonth) {
         $(".calendar-container .cell").removeClass("cell-disabled");
         $(".calendar-container .cell").each(function(index) {
-            $(this).text(datesOfMonth[index].date.day);
-            console.log(
-                "Tranquility date",
-                gregToTranq(datesOfMonth[index].date)
-            );
+            $(this).data(datesOfMonth[index].date);
+            $(this)
+                .find(".cell-value")
+                .text(datesOfMonth[index].date.day);
+
             if (!datesOfMonth[index].selectable) {
                 $(this).addClass("cell-disabled");
             }
+
+            const tranqDate = gregToTranq(datesOfMonth[index].date);
+            $(this)
+                .find("#date")
+                .text(getTranqDateStr(tranqDate));
+            $(this)
+                .find("#year")
+                .text(getTranqYearStr(tranqDate));
         });
     }
 
-    function setDay(day, datesOfMonth) {
+    function setDay(month, day) {
         $(".calendar-container .cell").removeClass("cell-selected");
         if (!isNaN(day) && day <= 42) {
             $(".calendar-container .cell")
                 .filter(function(index) {
-                    return (
-                        $(this).text() == day && datesOfMonth[index].selectable
-                    );
+                    let date = $(this).data();
+                    return date.month === month && date.day === day;
                 })
                 .addClass("cell-selected");
         }
     }
 
     function setYearMonth(year, month) {
-        $("#month").text(monthNames[month - 1] + " " + year);
+        $("#month").text(gregMonthNames[month - 1] + " " + year);
     }
 
     function setDate(year, month, day) {
         let datesOfMonth = getDatesOfMonth(year, month);
         setCalendarGrid(datesOfMonth);
-        setDay(day, datesOfMonth);
+        setDay(month, day);
         setYearMonth(year, month);
     }
 
@@ -282,8 +323,16 @@
 
     function init() {
         // Add all cells
+        const cellString = `<div class="cell">
+                <div class="cell-value"></div>
+                <div class="cell-subtext">
+                    <div class="cell-sub-inner" id="date"></div>
+                    <div class="cell-sub-inner" id="year"></div>
+                </div>
+            </div>`;
+
         for (let i = 0; i < 42; i++) {
-            $(".calendar-container").append("<div class='cell'></div>");
+            $(".calendar-container").append(cellString);
         }
         date = getToday();
         setDate(date.year, date.month, date.day);

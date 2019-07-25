@@ -179,4 +179,47 @@ export function load() {
     }
 }
 
+export function generateHash(date) {
+    let hash = name + "_" + date.year + "_";
+    if (date.aldrinDay) {
+        hash += "aldrin";
+    } else if (date.amstrongDay) {
+        hash += "amstrong";
+    } else {
+        hash += date.month + "_" + date.day;
+    }
+
+    return hash;
+}
+
+export function parseHash(hash) {
+    const splits = hash.split("_");
+    const date = {};
+    date.year = parseInt(splits[1]);
+
+    if (isNaN(date.year)) {
+        return getToday();
+    }
+
+    if (splits[2] === "aldrin") {
+        date.aldrinDay = true;
+        return date;
+    } else if (splits[2] === "amstrong") {
+        date.amstrongDay = true;
+        return date;
+    } else {
+        date.month = parseInt(splits[2]);
+        if (isNaN(date.month)) {
+            return getToday();
+        }
+
+        date.day = parseInt(splits[3]);
+        if (isNaN(date.day)) {
+            // If day is not there, we should load month
+            date.day = undefined;
+        }
+        return date;
+    }
+}
+
 export const name = "tranq";

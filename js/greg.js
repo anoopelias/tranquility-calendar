@@ -211,4 +211,30 @@ export function load() {
     }
 }
 
+export function generateHash(date) {
+    return name + "_" + date.year + "_" + date.month + "_" + date.day;
+}
+
+export function parseHash(hash) {
+    const splits = hash.split("_");
+    const date = {};
+    date.year = parseInt(splits[1]);
+
+    if (isNaN(date.year)) {
+        return getToday();
+    }
+
+    date.month = parseInt(splits[2]);
+    if (isNaN(date.month)) {
+        return getToday();
+    }
+
+    date.day = parseInt(splits[3]);
+    if (isNaN(date.day)) {
+        // If day is not there, we should load month
+        date.day = undefined;
+    }
+    return date;
+}
+
 export const name = "greg";

@@ -23,6 +23,10 @@ import * as tranq from "./tranq.js";
         cal.setDate(date);
     });
 
+    $(window).bind('hashchange', function() {
+        init();
+    });
+
     function connect() {
         $(".cell-subtext").click(function() {
             const newDate = $(this)
@@ -41,15 +45,25 @@ import * as tranq from "./tranq.js";
             cal = tranq;
         }
         cal.load();
-        cal.setDate(date);
         connect();
+        cal.setDate(date);
+        window.location.hash = cal.generateHash(date);
     }
 
     function init() {
-        cal = tranq;
+        // Starts with character '#'
+        const hash = window.location.hash.substring(1);
+        if (hash.startsWith(greg.name)) {
+            cal = greg;
+        } else {
+            // Default is also tranq
+            cal = tranq;
+        }
+
         cal.load();
         connect();
-        date = cal.getToday();
+
+        date = cal.parseHash(hash);
         cal.setDate(date);
     }
 

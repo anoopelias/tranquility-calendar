@@ -25,7 +25,9 @@ import * as tranq from "./tranq.js";
 
     function connect() {
         $(".cell-subtext").click(function() {
-            const newDate = $(this).parents(".cell").data();
+            const newDate = $(this)
+                .parents(".cell")
+                .data();
             toggleCal(newDate);
         });
     }

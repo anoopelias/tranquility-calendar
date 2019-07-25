@@ -4,7 +4,7 @@ import * as tranq from "./tranq.js";
 (function() {
     function highlightDate(year, month) {
         // 'Today' might have changed by now, so get it again,
-        let today = tranq.getToday();
+        let today = cal.getToday();
 
         if (today.month === month && today.year === year) {
             return today.day;

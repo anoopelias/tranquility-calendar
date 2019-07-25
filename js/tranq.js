@@ -133,7 +133,7 @@ export function getNextMonth(year, month) {
 
 export function getPrevMonth(year, month) {
     return {
-        month: month === 1 ? 12 : month - 1,
+        month: month === 1 ? 13 : month - 1,
         year: month === 1 ? (year === 1 ? -1 : year - 1) : year
     };
 }

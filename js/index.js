@@ -1,10 +1,10 @@
-import * as greg from './greg.js';
+import * as greg from "./greg.js";
+import * as tranq from "./tranq.js";
 
 (function() {
-
     function highlightDate(year, month) {
         // 'Today' might have changed by now, so get it again,
-        let today = greg.getToday();
+        let today = tranq.getToday();
 
         if (today.month === month && today.year === year) {
             return today.day;
@@ -12,21 +12,21 @@ import * as greg from './greg.js';
     }
 
     $("#next").click(function() {
-        date = greg.getNextMonth(date.year, date.month);
+        date = tranq.getNextMonth(date.year, date.month);
         date.day = highlightDate(date.year, date.month);
-        greg.setDate(date.year, date.month, date.day);
+        tranq.setDate(date);
     });
 
     $("#previous").click(function() {
-        date = greg.getPrevMonth(date.year, date.month);
+        date = tranq.getPrevMonth(date.year, date.month);
         date.day = highlightDate(date.year, date.month);
-        greg.setDate(date.year, date.month, date.day);
+        tranq.setDate(date);
     });
 
     function init() {
-        greg.load();
-        date = greg.getToday();
-        greg.setDate(date.year, date.month, date.day);
+        tranq.load();
+        date = tranq.getToday();
+        tranq.setDate(date);
     }
 
     let date;

@@ -4,7 +4,7 @@
   "description": "",
   "main": "js/index.js",
   "scripts": {
-    "prettify": "prettier --tab-width 4 --write js/tranquility-calendar.js"
+    "prettify": "prettier --tab-width 4 --write js/*.js"
   },
   "repository": {
     "type": "git",

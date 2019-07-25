@@ -1,4 +1,5 @@
-import {getTranqDateStr, getTranqYearStr} from "./tranq.js";
+import { getTranqDateStr, getTranqYearStr } from "./tranq.js";
+import { cellString, getLastDateOfMonth, lookups } from "./common.js";
 
 const monthNames = [
     "January",
@@ -15,87 +16,15 @@ const monthNames = [
     "December"
 ];
 
-const weekDays = [
-      "Sun",
-      "Mon",
-      "Tue",
-      "Wed",
-      "Thu",
-      "Fri",
-      "Sat"
-]
+const weekDays = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
-function isLeapYear(year) {
-    return (year % 4 == 0 && year % 100 != 0) || year % 400 == 0;
+export function getGregDateStr(date) {
+    return monthNames[date.month - 1] + " " + date.day;
 }
 
-function getLastDateOfMonth(isLeapYear, month) {
-    switch (month) {
-        case 1:
-        case 3:
-        case 5:
-        case 7:
-        case 8:
-        case 10:
-        case 12:
-            return 31;
-        case 4:
-        case 6:
-        case 9:
-        case 11:
-            return 30;
-        case 2:
-            if (isLeapYear) {
-                return 29;
-            }
-            return 28;
-    }
-}
-
-const gregToTranqLookupTable = generateGregToTranqLookupTable();
-const gregToTranqLeapLookupTable = generateGregToTranqLookupTable(true);
-
-function generateGregToTranqLookupTable(isLeapYear) {
-    // 01/01 Greg is 25/06 Tranq
-    let month = 6;
-    let day = 25;
-    let nextYear = false;
-
-    const lookup = [];
-    for (let i = 1; i <= 12; i++) {
-        const months = [];
-        for (let j = 1; j <= getLastDateOfMonth(isLeapYear, i); j++) {
-            months.push({
-                month: month,
-                day: day++,
-                nextYear: nextYear
-            });
-
-            // Amstrong day is last day of the year,
-            // so reset month and day
-            if (month > 13) {
-                months[j - 1].amstrongDay = true;
-                month = 1;
-                day = 1;
-                nextYear = true;
-            }
-
-            // Aldrin day is leap day and will not count in its Tranq month,
-            // so go back day by 1
-            if (isLeapYear && i === 2 && j === 29) {
-                months[j - 1].aldrinDay = true;
-                day--;
-            }
-
-            if (day > 28) {
-                day = 1;
-                month++;
-            }
-        }
-        lookup.push(months);
-    }
-
-    return lookup;
+export function getGregYearStr(year) {
+    //TODO: Handle AD/BC
+    return year + "";
 }
 
 function toTranqYear(gregYear) {
@@ -115,35 +44,15 @@ function toTranqYear(gregYear) {
     // L - is a leap year
     // Please note that there is no '0' Tranq year
     //
+    // Output Tranquility year is the year when the input Gregorian year ends.
+    //
 
     let tranqYear = gregYear - 1969;
-    if (gregYear > 1969) {
+    if (gregYear >= 1969) {
         tranqYear++;
     }
 
     return tranqYear;
-}
-
-function toTranq(date) {
-    let lookupTable;
-    if (isLeapYear(date.year)) {
-        lookupTable = gregToTranqLeapLookupTable;
-    } else {
-        lookupTable = gregToTranqLookupTable;
-    }
-    // Do a shallow copy since the object could be changed
-    const tranqDate = Object.assign(
-        {},
-        lookupTable[date.month - 1][date.day - 1]
-    );
-
-    if (tranqDate.nextYear) {
-        tranqDate.year = toTranqYear(date.year);
-    } else {
-        tranqDate.year = toTranqYear(date.year - 1);
-    }
-
-    return tranqDate;
 }
 
 function getDatesOfMonth(year, month) {
@@ -214,11 +123,12 @@ function setCalendarGrid(datesOfMonth) {
             .text(getTranqDateStr(tranqDate));
         $(this)
             .find("#year")
-            .text(getTranqYearStr(tranqDate));
+            .text(getTranqYearStr(tranqDate.year));
     });
 }
 
 function setYearMonth(year, month) {
+    // TODO: Handle AD/BC
     $("#month").text(monthNames[month - 1] + " " + year);
 }
 
@@ -233,6 +143,30 @@ function setDay(month, day) {
             .addClass("cell-selected");
     }
 }
+export function isLeapYear(year) {
+    return (year % 4 == 0 && year % 100 != 0) || year % 400 == 0;
+}
+
+export function toTranq(date) {
+    let lookupTable;
+    if (isLeapYear(date.year)) {
+        lookupTable = lookups.leapYear.greg;
+    } else {
+        lookupTable = lookups.normalYear.greg;
+    }
+    // Do a shallow copy since the object could be changed
+    const tranqDate = Object.assign(
+        {},
+        lookupTable[date.month - 1][date.day - 1]
+    );
+
+    tranqDate.year = toTranqYear(date.year);
+    if (!tranqDate.secondHalfYear) {
+        tranqDate.year--;
+    }
+
+    return tranqDate;
+}
 
 export function getToday() {
     let today = new Date();
@@ -243,14 +177,15 @@ export function getToday() {
     };
 }
 
-export function setDate(year, month, day) {
-    let datesOfMonth = getDatesOfMonth(year, month);
+export function setDate(date) {
+    let datesOfMonth = getDatesOfMonth(date.year, date.month);
     setCalendarGrid(datesOfMonth);
-    setDay(month, day);
-    setYearMonth(year, month);
+    setDay(date.month, date.day);
+    setYearMonth(date.year, date.month);
 }
 
 export function getNextMonth(year, month) {
+    // TODO: Handle AD/BC
     return {
         month: month === 12 ? 1 : month + 1,
         year: month === 12 ? year + 1 : year
@@ -258,6 +193,7 @@ export function getNextMonth(year, month) {
 }
 
 export function getPrevMonth(year, month) {
+    // TODO: Handle AD/BC
     return {
         month: month === 1 ? 12 : month - 1,
         year: month === 1 ? year - 1 : year
@@ -265,20 +201,11 @@ export function getPrevMonth(year, month) {
 }
 
 export function load() {
-    const cellString = `<div class="cell">
-            <div class="cell-value"></div>
-            <div class="cell-subtext">
-                <div class="cell-sub-inner" id="date"></div>
-                <div class="cell-sub-inner" id="year"></div>
-            </div>
-        </div>`;
-
-    for (let i = 0; i < 42; i++) {
-        $(".calendar-container").append(cellString);
-    }
-
+    $("#title").text("Gregorian Calendar");
     $(".head-cell").each(function(index) {
         $(this).text(weekDays[index]);
     });
+    for (let i = 0; i < 42; i++) {
+        $(".calendar-container").append(cellString);
+    }
 }
-

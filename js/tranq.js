@@ -55,7 +55,7 @@ export function toGregYear(tranqYear) {
     return gregYear;
 }
 
-function toGreg(date) {
+export function toGreg(date) {
     let lookupTable;
     let gregDate;
 
@@ -173,7 +173,10 @@ export function load() {
     $(".head-cell").each(function(index) {
         $(this).text(weekDays[index]);
     });
+    $(".cell").remove();
     for (let i = 0; i < 28; i++) {
         $(".calendar-container").append(cellString);
     }
 }
+
+export const name = "tranq";

@@ -205,7 +205,10 @@ export function load() {
     $(".head-cell").each(function(index) {
         $(this).text(weekDays[index]);
     });
+    $(".cell").remove();
     for (let i = 0; i < 42; i++) {
         $(".calendar-container").append(cellString);
     }
 }
+
+export const name = "greg";

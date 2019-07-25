@@ -71,7 +71,9 @@ body {
   display: flex;
   flex-direction: column;
   color: #b89898;
-  font-size: 12px; }
+  text-decoration: underline;
+  font-size: 12px;
+  cursor: pointer; }
 
 .cell-sub-inner {
   margin: 2px; }

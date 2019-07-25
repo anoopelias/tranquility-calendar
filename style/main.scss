@@ -82,7 +82,9 @@ body {
     display: flex;
     flex-direction: column;
     color: #b89898;
+    text-decoration: underline;
     font-size: 12px;
+    cursor: pointer;
 }
 .cell-sub-inner {
     @extend .center-align;

@@ -12,23 +12,46 @@ import * as tranq from "./tranq.js";
     }
 
     $("#next").click(function() {
-        date = tranq.getNextMonth(date.year, date.month);
+        date = cal.getNextMonth(date.year, date.month);
         date.day = highlightDate(date.year, date.month);
-        tranq.setDate(date);
+        cal.setDate(date);
     });
 
     $("#previous").click(function() {
-        date = tranq.getPrevMonth(date.year, date.month);
+        date = cal.getPrevMonth(date.year, date.month);
         date.day = highlightDate(date.year, date.month);
-        tranq.setDate(date);
+        cal.setDate(date);
     });
 
+    function connect() {
+        $(".cell-subtext").click(function() {
+            const newDate = $(this).parents(".cell").data();
+            toggleCal(newDate);
+        });
+    }
+
+    function toggleCal(newDate) {
+        if (cal.name === "tranq") {
+            date = tranq.toGreg(newDate);
+            cal = greg;
+        } else {
+            date = greg.toTranq(newDate);
+            cal = tranq;
+        }
+        cal.load();
+        cal.setDate(date);
+        connect();
+    }
+
     function init() {
-        tranq.load();
-        date = tranq.getToday();
-        tranq.setDate(date);
+        cal = tranq;
+        cal.load();
+        connect();
+        date = cal.getToday();
+        cal.setDate(date);
     }
 
     let date;
+    let cal;
     init();
 })();

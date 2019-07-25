@@ -37,12 +37,14 @@ body {
     justify-content: space-between;
     align-items: center;
     background: #d5f2e3;
-    height: 30px;
+    height: 40px;
     margin-bottom: 10px;
     border-radius: $grid-border-radius;
     box-shadow: 1px 1px 1px rgba(0, 0, 0, .1);
+    font-size: 20px;
 }
 .month-control {
+    @extend .center-align;
     margin: 0 $grid-spacing 0 $grid-spacing;
     background: #c47070;
     border-radius: $grid-border-radius;
@@ -50,9 +52,8 @@ body {
     box-shadow: 1px 2px 3px rgba(0, 0, 0, .2);
     color: #f3f1f1;
     width: 40px;
-    font-size: 12px;
-    height: 22px;
-    line-height: 22px;
+    font-size: 18px;
+    height: 32px;
     text-align: center;
     cursor: pointer;
 }

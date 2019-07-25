@@ -109,7 +109,7 @@ export function getTranqYearStr(year) {
 }
 
 function setYearMonth(year, month) {
-    $("#month").text(monthNames[month - 1] + " " + getTranqYearStr(year));
+    $("#month").text(monthNames[month - 1] + ", " + getTranqYearStr(year));
 }
 
 function setDay(month, day) {

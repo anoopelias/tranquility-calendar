@@ -129,7 +129,7 @@ function setCalendarGrid(datesOfMonth) {
 
 function setYearMonth(year, month) {
     // TODO: Handle AD/BC
-    $("#month").text(monthNames[month - 1] + " " + year);
+    $("#month").text(monthNames[month - 1] + ", " + year);
 }
 
 function setDay(month, day) {

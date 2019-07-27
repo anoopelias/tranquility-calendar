@@ -1,5 +1,6 @@
 import { getTranqDateStr, getTranqYearStr } from "./tranq.js";
 import { cellString, getLastDateOfMonth, lookups } from "./common.js";
+import Calendar from "./calendar.js";
 
 const monthNames = [
     "January",
@@ -55,109 +56,16 @@ function toTranqYear(gregYear) {
     return tranqYear;
 }
 
-function getDatesOfMonth(year, month) {
-    const datesOfMonth = [];
-    const firstDayOfMonth = new Date(year, month - 1, 1).getDay();
-    const prevMonth = getPrevMonth(year, month);
 
-    let lastDateOfPrevMonth = getLastDateOfMonth(
-        isLeapYear(prevMonth.year),
-        prevMonth.month
-    );
-
-    for (let i = firstDayOfMonth - 1; i >= 0; i--) {
-        datesOfMonth.unshift({
-            date: {
-                year: prevMonth.year,
-                month: prevMonth.month,
-                day: lastDateOfPrevMonth--
-            },
-            selectable: false
-        });
-    }
-
-    const lastDateOfThisMonth = getLastDateOfMonth(isLeapYear(year), month);
-
-    for (let i = 1; i <= lastDateOfThisMonth; i++) {
-        datesOfMonth.push({
-            date: {
-                year: year,
-                month: month,
-                day: i
-            },
-            selectable: true
-        });
-    }
-
-    const nextMonth = getNextMonth(year, month);
-    let i = 1;
-    while (datesOfMonth.length <= 42) {
-        datesOfMonth.push({
-            date: {
-                year: nextMonth.year,
-                month: nextMonth.month,
-                day: i++
-            },
-            selectable: false
-        });
-    }
-
-    return datesOfMonth;
-}
-
-function setCalendarGrid(datesOfMonth) {
-    $(".calendar-container .cell").removeClass("cell-disabled");
-    $(".calendar-container .cell").each(function(index) {
-        $(this).data(datesOfMonth[index].date);
-        $(this)
-            .find(".cell-value")
-            .text(datesOfMonth[index].date.day);
-
-        if (!datesOfMonth[index].selectable) {
-            $(this).addClass("cell-disabled");
-        }
-
-        const tranqDate = toTranq(datesOfMonth[index].date);
-        $(this)
-            .find("#date")
-            .text(getTranqDateStr(tranqDate));
-        $(this)
-            .find("#year")
-            .text(getTranqYearStr(tranqDate.year));
-    });
-}
-
-function setYearMonth(year, month) {
-    // TODO: Handle AD/BC
-    $("#month").text(monthNames[month - 1] + ", " + year);
-}
-
-export function setDay(month, day) {
-    $(".calendar-container .cell").removeClass("cell-selected");
-    if (!isNaN(day) && day <= 42) {
-        $(".calendar-container .cell")
-            .filter(function(index) {
-                let date = $(this).data();
-                return date.month === month && date.day === day;
-            })
-            .addClass("cell-selected");
-    }
-}
 export function isLeapYear(year) {
     return (year % 4 == 0 && year % 100 != 0) || year % 400 == 0;
 }
 
 export function toTranq(date) {
-    let lookupTable;
-    if (isLeapYear(date.year)) {
-        lookupTable = lookups.leapYear.greg;
-    } else {
-        lookupTable = lookups.normalYear.greg;
-    }
     // Do a shallow copy since the object could be changed
     const tranqDate = Object.assign(
         {},
-        lookupTable[date.month - 1][date.day - 1]
+        lookups.greg[date.month - 1][date.day - 1]
     );
 
     tranqDate.year = toTranqYear(date.year);
@@ -177,64 +85,139 @@ export function getToday() {
     };
 }
 
-export function setDate(date) {
-    let datesOfMonth = getDatesOfMonth(date.year, date.month);
-    setCalendarGrid(datesOfMonth);
-    setDay(date.month, date.day);
-    setYearMonth(date.year, date.month);
-}
-
-export function getNextMonth(year, month) {
-    // TODO: Handle AD/BC
-    return {
-        month: month === 12 ? 1 : month + 1,
-        year: month === 12 ? year + 1 : year
-    };
-}
-
-export function getPrevMonth(year, month) {
-    // TODO: Handle AD/BC
-    return {
-        month: month === 1 ? 12 : month - 1,
-        year: month === 1 ? year - 1 : year
-    };
-}
-
-export function load() {
-    $("#title").text("Gregorian Calendar");
-    $(".head-cell").each(function(index) {
-        $(this).text(weekDays[index]);
-    });
-    $(".cell").remove();
-    for (let i = 0; i < 42; i++) {
-        $(".calendar-container").append(cellString);
-    }
-}
-
-export function generateHash(date) {
-    return name + "_" + date.year + "_" + date.month + "_" + date.day;
-}
-
-export function parseHash(hash) {
-    const splits = hash.split("_");
-    const date = {};
-    date.year = parseInt(splits[1]);
-
-    if (isNaN(date.year)) {
-        return getToday();
-    }
-
-    date.month = parseInt(splits[2]);
-    if (isNaN(date.month)) {
-        return getToday();
-    }
-
-    date.day = parseInt(splits[3]);
-    if (isNaN(date.day)) {
-        // If day is not there, we should load month
-        date.day = undefined;
-    }
-    return date;
-}
-
 export const name = "greg";
+
+export class Greg extends Calendar {
+    noOfMonths = 12;
+
+    constructor(onSwitch, date) {
+        super(onSwitch, date);
+    }
+
+    load() {
+        this.loadPage();
+        this.connect();
+        this.show();
+    }
+
+    loadPage() {
+        $("#title").text("Gregorian Calendar");
+        $(".head-cell").each(function(index) {
+            $(this).text(weekDays[index]);
+        });
+        for (let i = 0; i < 42; i++) {
+            $(".calendar-container").append(cellString);
+        }
+    }
+
+    show() {
+        let datesOfMonth = this.getDatesOfMonth();
+        this.setGrid(datesOfMonth);
+        this.setDay();
+        this.setYearMonth();
+    }
+
+    getDatesOfMonth() {
+        const datesOfMonth = [];
+        const {year, month} = this.showMonth;
+        const firstDayOfMonth = new Date(year, month - 1, 1).getDay();
+        const prevMonth = this.getPrevMonth();
+
+        let lastDateOfPrevMonth = getLastDateOfMonth(
+            isLeapYear(prevMonth.year),
+            prevMonth.month
+        );
+
+        for (let i = firstDayOfMonth - 1; i >= 0; i--) {
+            datesOfMonth.unshift({
+                date: {
+                    year: prevMonth.year,
+                    month: prevMonth.month,
+                    day: lastDateOfPrevMonth--
+                },
+                selectable: false
+            });
+        }
+
+        const lastDateOfThisMonth = getLastDateOfMonth(isLeapYear(year), month);
+
+        for (let i = 1; i <= lastDateOfThisMonth; i++) {
+            datesOfMonth.push({
+                date: {
+                    year: year,
+                    month: month,
+                    day: i
+                },
+                selectable: true
+            });
+        }
+
+        const nextMonth = this.getNextMonth();
+        let i = 1;
+        while (datesOfMonth.length <= 42) {
+            datesOfMonth.push({
+                date: {
+                    year: nextMonth.year,
+                    month: nextMonth.month,
+                    day: i++
+                },
+                selectable: false
+            });
+        }
+
+        return datesOfMonth;
+    }
+
+    setGrid(datesOfMonth) {
+        $(".calendar-container .cell").removeClass("cell-disabled");
+        $(".calendar-container .cell").each(function(index) {
+            $(this).data(datesOfMonth[index].date);
+            $(this)
+                .find(".cell-value")
+                .text(datesOfMonth[index].date.day);
+
+            if (!datesOfMonth[index].selectable) {
+                $(this).addClass("cell-disabled");
+            }
+
+            const tranqDate = toTranq(datesOfMonth[index].date);
+            $(this)
+                .find("#date")
+                .text(getTranqDateStr(tranqDate));
+            $(this)
+                .find("#year")
+                .text(getTranqYearStr(tranqDate.year));
+        });
+    }
+
+    setYearMonth() {
+        // TODO: Handle AD/BC
+        const {year, month} = this.showMonth;
+        $("#month").text(monthNames[month - 1] + ", " + year);
+    }
+
+    parseHash(hash) {
+        const splits = hash.split("_");
+        const date = this.date = {};
+        date.year = parseInt(splits[1]);
+
+        if (isNaN(date.year)) {
+            this.date = getToday();
+        }
+
+        date.month = parseInt(splits[2]);
+        if (isNaN(date.month)) {
+            this.date = getToday();
+        }
+
+        date.day = parseInt(splits[3]);
+        if (isNaN(date.day)) {
+            // If day is not there, we should load month
+            date.day = undefined;
+        }
+    }
+
+    static generateHash(date) {
+        return name + "_" + date.year + "_" + date.month + "_" + date.day;
+    }
+}

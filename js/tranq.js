@@ -1,5 +1,6 @@
 import { cellString, lookups } from "./common.js";
 import * as greg from "./greg.js";
+import Calendar from "./calendar.js";
 
 const monthNames = [
     "Archimedes",
@@ -78,7 +79,7 @@ export function toGreg(date) {
         //
         gregDate = Object.assign(
             {},
-            lookups.normalYear.tranq[date.month - 1][date.day - 1]
+            lookups.tranq[date.month - 1][date.day - 1]
         );
     }
 
@@ -108,118 +109,120 @@ export function getTranqYearStr(year) {
     }
 }
 
-function setYearMonth(year, month) {
-    $("#month").text(monthNames[month - 1] + ", " + getTranqYearStr(year));
-}
-
-export function setDay(month, day) {
-    $(".calendar-container .cell").removeClass("cell-selected");
-    if (!isNaN(day) && day <= 28) {
-        $(".calendar-container .cell")
-            .filter(function(index) {
-                let date = $(this).data();
-                return date.month === month && date.day === day;
-            })
-            .addClass("cell-selected");
-    }
-}
-
-export function getNextMonth(year, month) {
-    return {
-        month: month === 13 ? 1 : month + 1,
-        year: month === 13 ? (year === -1 ? 1 : year + 1) : year
-    };
-}
-
-export function getPrevMonth(year, month) {
-    return {
-        month: month === 1 ? 13 : month - 1,
-        year: month === 1 ? (year === 1 ? -1 : year - 1) : year
-    };
-}
-
 export function getToday() {
     return greg.toTranq(greg.getToday());
 }
 
-export function setDate(date) {
-    $(".calendar-container .cell").each(function(index) {
-        // TODO: Handle aldrin day and amstrong day
-        let cellDate = {
-            year: date.year,
-            month: date.month,
-            day: index + 1
-        };
-
-        $(this).data(cellDate);
-        $(this)
-            .find(".cell-value")
-            .text(cellDate.day);
-
-        const gregDate = toGreg(cellDate);
-        $(this)
-            .find("#date")
-            .text(greg.getGregDateStr(gregDate));
-        $(this)
-            .find("#year")
-            .text(greg.getGregYearStr(gregDate.year));
-    });
-    setDay(date.month, date.day);
-    setYearMonth(date.year, date.month);
-}
-
-export function load() {
-    $("#title").text("Tranquility Calendar");
-    $(".head-cell").each(function(index) {
-        $(this).text(weekDays[index]);
-    });
-    $(".cell").remove();
-    for (let i = 0; i < 28; i++) {
-        $(".calendar-container").append(cellString);
-    }
-}
-
-export function generateHash(date) {
-    let hash = name + "_" + date.year + "_";
-    if (date.aldrinDay) {
-        hash += "aldrin";
-    } else if (date.amstrongDay) {
-        hash += "amstrong";
-    } else {
-        hash += date.month + "_" + date.day;
-    }
-
-    return hash;
-}
-
-export function parseHash(hash) {
-    const splits = hash.split("_");
-    const date = {};
-    date.year = parseInt(splits[1]);
-
-    if (isNaN(date.year)) {
-        return getToday();
-    }
-
-    if (splits[2] === "aldrin") {
-        date.aldrinDay = true;
-        return date;
-    } else if (splits[2] === "amstrong") {
-        date.amstrongDay = true;
-        return date;
-    } else {
-        date.month = parseInt(splits[2]);
-        if (isNaN(date.month)) {
-            return getToday();
-        }
-
-        date.day = parseInt(splits[3]);
-        if (isNaN(date.day)) {
-            // If day is not there, we should load month
-            date.day = undefined;
-        }
-        return date;
-    }
-}
 
 export const name = "tranq";
+
+export class Tranq extends Calendar {
+    noOfMonths = 13;
+
+    constructor(date) {
+        super(date);
+
+        // Amstrong day will be loaded on Mendel
+        if (this.date.amstrongDay) {
+            this.showMonth.month = 13;
+        }
+
+        // Aldrin day will be loaded on Mendel
+        if (this.date.aldrinDay) {
+            this.showMonth.month = 8;
+        }
+    }
+
+    load() {
+        this.loadPage();
+        this.connect();
+        this.show();
+    }
+
+    loadPage() {
+        $("#title").text("Tranquility Calendar");
+        $(".head-cell").each(function(index) {
+            $(this).text(weekDays[index]);
+        });
+        for (let i = 0; i < 28; i++) {
+            $(".calendar-container").append(cellString);
+        }
+    }
+
+    show() {
+        this.setGrid();
+        this.setDay();
+        this.setYearMonth();
+    }
+
+    setGrid() {
+        const {year, month} = this.showMonth;
+
+        $(".calendar-container .cell").each(function(index) {
+            // TODO: Handle aldrin day and amstrong day
+            let cellDate = {
+                year: year,
+                month: month,
+                day: index + 1
+            };
+
+            $(this).data(cellDate);
+            $(this)
+                .find(".cell-value")
+                .text(cellDate.day);
+
+            const gregDate = toGreg(cellDate);
+            $(this)
+                .find("#date")
+                .text(greg.getGregDateStr(gregDate));
+            $(this)
+                .find("#year")
+                .text(greg.getGregYearStr(gregDate.year));
+        });
+    }
+
+    setYearMonth() {
+        const {year, month} = this.showMonth;
+        $("#month").text(monthNames[month - 1] + ", " + getTranqYearStr(year));
+    }
+
+    parseHash(hash) {
+        const splits = hash.split("_");
+        const date = this.date = {};
+        date.year = parseInt(splits[1]);
+
+        if (isNaN(date.year)) {
+            this.date = getToday();
+        }
+
+        if (splits[2] === "aldrin") {
+            date.aldrinDay = true;
+        } else if (splits[2] === "amstrong") {
+            date.amstrongDay = true;
+        } else {
+            date.month = parseInt(splits[2]);
+            if (isNaN(date.month)) {
+                this.date = getToday();
+            }
+
+            date.day = parseInt(splits[3]);
+            if (isNaN(date.day)) {
+                // If day is not there, we should load month
+                date.day = undefined;
+            }
+        }
+    }
+
+    static generateHash(date) {
+        let hash = name + "_" + date.year + "_";
+        if (date.aldrinDay) {
+            hash += "aldrin";
+        } else if (date.amstrongDay) {
+            hash += "amstrong";
+        } else {
+            hash += date.month + "_" + date.day;
+        }
+
+        return hash;
+    }
+}

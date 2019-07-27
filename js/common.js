@@ -29,12 +29,9 @@ export function getLastDateOfMonth(isLeapYear, month) {
     }
 }
 
-export const lookups = {};
+export const lookups = generateGregTranqLookupTables();
 
-lookups.normalYear = generateGregTranqLookupTables();
-lookups.leapYear = generateGregTranqLookupTables(true);
-
-function generateGregTranqLookupTables(isLeapYear) {
+function generateGregTranqLookupTables() {
     // 01/01 Greg is 25/06 Tranq
     let month = 6;
     let day = 25;
@@ -49,8 +46,7 @@ function generateGregTranqLookupTables(isLeapYear) {
 
     for (let i = 1; i <= 12; i++) {
         const months = [];
-        for (let j = 1; j <= getLastDateOfMonth(isLeapYear, i); j++) {
-            // FIXME: TranqLookup is not needed for leap year
+        for (let j = 1; j <= getLastDateOfMonth(true, i); j++) {
             tranqLookup[month - 1][day - 1] = {
                 month: i,
                 day: j,
@@ -75,7 +71,7 @@ function generateGregTranqLookupTables(isLeapYear) {
 
             // Aldrin day is leap day and will not count in its Tranq month,
             // so go back day by 1
-            if (isLeapYear && i === 2 && j === 29) {
+            if (i === 2 && j === 29) {
                 months[j - 1].aldrinDay = true;
                 day--;
             }

@@ -162,7 +162,7 @@ export function toTranq(date) {
 
     tranqDate.year = toTranqYear(date.year);
     if (!tranqDate.secondHalfYear) {
-        tranqDate.year--;
+        tranqDate.year = (tranqDate.year === 1)? -1 : tranqDate.year - 1;
     }
 
     return tranqDate;

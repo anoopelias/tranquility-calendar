@@ -104,7 +104,7 @@ export function getTranqYearStr(year) {
     if (year > 0) {
         return year + " AT";
     } else {
-        return year + " BT";
+        return -year + " BT";
     }
 }
 

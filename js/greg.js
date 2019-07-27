@@ -132,7 +132,7 @@ function setYearMonth(year, month) {
     $("#month").text(monthNames[month - 1] + ", " + year);
 }
 
-function setDay(month, day) {
+export function setDay(month, day) {
     $(".calendar-container .cell").removeClass("cell-selected");
     if (!isNaN(day) && day <= 42) {
         $(".calendar-container .cell")
@@ -162,7 +162,7 @@ export function toTranq(date) {
 
     tranqDate.year = toTranqYear(date.year);
     if (!tranqDate.secondHalfYear) {
-        tranqDate.year = (tranqDate.year === 1)? -1 : tranqDate.year - 1;
+        tranqDate.year = tranqDate.year === 1 ? -1 : tranqDate.year - 1;
     }
 
     return tranqDate;

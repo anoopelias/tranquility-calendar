@@ -112,7 +112,7 @@ function setYearMonth(year, month) {
     $("#month").text(monthNames[month - 1] + ", " + getTranqYearStr(year));
 }
 
-function setDay(month, day) {
+export function setDay(month, day) {
     $(".calendar-container .cell").removeClass("cell-selected");
     if (!isNaN(day) && day <= 28) {
         $(".calendar-container .cell")

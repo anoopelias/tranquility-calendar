@@ -55,7 +55,8 @@ body {
   border-radius: 3px;
   margin: 2.5px;
   box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.1);
-  font-size: 28px; }
+  font-size: 28px;
+  cursor: pointer; }
 
 .cell-disabled {
   opacity: 0.5; }

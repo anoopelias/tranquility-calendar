@@ -67,6 +67,7 @@ body {
     margin: ($grid-spacing/2);
     box-shadow: 1px 1px 1px rgba(0, 0, 0, .1);
     font-size: 28px;
+    cursor: pointer;
 }
 .cell-disabled {
     opacity: 0.5;

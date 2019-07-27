@@ -23,16 +23,22 @@ import * as tranq from "./tranq.js";
         cal.setDate(date);
     });
 
-    $(window).bind('hashchange', function() {
+    $(window).bind("hashchange", function() {
         init();
     });
 
     function connect() {
         $(".cell-subtext").click(function() {
-            const newDate = $(this)
-                .parents(".cell")
-                .data();
-            toggleCal(newDate);
+            toggleCal(
+                $(this)
+                    .parents(".cell")
+                    .data()
+            );
+        });
+        $(".cell").click(function() {
+            date.day = $(this).data().day;
+            cal.setDay(date.month, date.day);
+            window.location.hash = cal.generateHash(date);
         });
     }
 

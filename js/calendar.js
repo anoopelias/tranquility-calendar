@@ -25,7 +25,6 @@ function setHash(hash) {
 
 export default class Calendar {
     constructor(date) {
-
         if (typeof date === "string") {
             this.parseHash(date);
         } else {
@@ -35,17 +34,21 @@ export default class Calendar {
         this.showMonth = {
             month: this.date.month,
             year: this.date.year
-        }
+        };
     }
 
     connect() {
         const that = this;
         $(".cell-subtext").click(function() {
-            const date = $(this).parents(".cell").data();
+            const date = $(this)
+                .parents(".cell")
+                .data();
             switchPage(that, date);
         });
         $(".cell-value").click(function() {
-            const date = $(this).parents(".cell").data();
+            const date = $(this)
+                .parents(".cell")
+                .data();
             setPage(that, date);
         });
         $("#next").click(function() {
@@ -60,24 +63,25 @@ export default class Calendar {
         this.show = {
             month: this.date.month,
             year: this.date.year
-        }
+        };
     }
 
     showDay() {
-        const {year, month} = this.showMonth;
+        const { year, month } = this.showMonth;
         return this.date.year === year && this.date.month === month;
     }
 
     getNextMonth() {
-        const {year, month} = this.showMonth;
+        const { year, month } = this.showMonth;
         return {
             month: month === this.noOfMonths ? 1 : month + 1,
-            year: month === this.noOfMonths ? (year === -1 ? 1 : year + 1) : year
+            year:
+                month === this.noOfMonths ? (year === -1 ? 1 : year + 1) : year
         };
     }
 
     getPrevMonth() {
-        const {year, month} = this.showMonth;
+        const { year, month } = this.showMonth;
         return {
             month: month === 1 ? this.noOfMonths : month - 1,
             year: month === 1 ? (year === 1 ? -1 : year - 1) : year
@@ -114,5 +118,4 @@ export default class Calendar {
         $("#next").unbind();
         $("#previous").unbind();
     }
-
 }

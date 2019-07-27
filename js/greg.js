@@ -56,7 +56,6 @@ function toTranqYear(gregYear) {
     return tranqYear;
 }
 
-
 export function isLeapYear(year) {
     return (year % 4 == 0 && year % 100 != 0) || year % 400 == 0;
 }
@@ -119,7 +118,7 @@ export class Greg extends Calendar {
 
     getDatesOfMonth() {
         const datesOfMonth = [];
-        const {year, month} = this.showMonth;
+        const { year, month } = this.showMonth;
         const firstDayOfMonth = new Date(year, month - 1, 1).getDay();
         const prevMonth = this.getPrevMonth();
 
@@ -192,13 +191,13 @@ export class Greg extends Calendar {
 
     setYearMonth() {
         // TODO: Handle AD/BC
-        const {year, month} = this.showMonth;
+        const { year, month } = this.showMonth;
         $("#month").text(monthNames[month - 1] + ", " + year);
     }
 
     parseHash(hash) {
         const splits = hash.split("_");
-        const date = this.date = {};
+        const date = (this.date = {});
         date.year = parseInt(splits[1]);
 
         if (isNaN(date.year)) {

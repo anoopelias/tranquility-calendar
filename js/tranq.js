@@ -113,7 +113,6 @@ export function getToday() {
     return greg.toTranq(greg.getToday());
 }
 
-
 export const name = "tranq";
 
 export class Tranq extends Calendar {
@@ -156,7 +155,7 @@ export class Tranq extends Calendar {
     }
 
     setGrid() {
-        const {year, month} = this.showMonth;
+        const { year, month } = this.showMonth;
 
         $(".calendar-container .cell").each(function(index) {
             // TODO: Handle aldrin day and amstrong day
@@ -182,13 +181,13 @@ export class Tranq extends Calendar {
     }
 
     setYearMonth() {
-        const {year, month} = this.showMonth;
+        const { year, month } = this.showMonth;
         $("#month").text(monthNames[month - 1] + ", " + getTranqYearStr(year));
     }
 
     parseHash(hash) {
         const splits = hash.split("_");
-        const date = this.date = {};
+        const date = (this.date = {});
         date.year = parseInt(splits[1]);
 
         if (isNaN(date.year)) {

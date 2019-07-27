@@ -7,7 +7,6 @@ import * as tranq from "./tranq.js";
     });
 
     function init() {
-
         if (cal) {
             cal.unload();
         }

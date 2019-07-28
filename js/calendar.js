@@ -38,7 +38,17 @@ export default class Calendar {
         };
     }
 
-    connect() {
+    connectArrows() {
+        const that = this;
+        $("#next").click(function() {
+            that.next();
+        });
+        $("#previous").click(function() {
+            that.prev();
+        });
+    }
+
+    connectGrid() {
         const that = this;
         $(".cell-subtext").click(function() {
             const date = $(this)
@@ -51,12 +61,6 @@ export default class Calendar {
                 .parents(".cell")
                 .data();
             setPage(that, date);
-        });
-        $("#next").click(function() {
-            that.next();
-        });
-        $("#previous").click(function() {
-            that.prev();
         });
     }
 
@@ -111,6 +115,7 @@ export default class Calendar {
 
     unload() {
         $(".cell").remove();
+        $(".head-cell").remove();
         $("#next").unbind();
         $("#previous").unbind();
     }

@@ -2,7 +2,8 @@ import {
     cellString,
     getLastDayOfMonth,
     lookups,
-    gregToTranq
+    gregToTranq,
+    headCellString
 } from "./common.js";
 import Tranq from "./tranq.js";
 import Calendar from "./calendar.js";
@@ -38,12 +39,16 @@ export default class Greg extends Calendar {
 
     load() {
         this.loadPage();
-        this.connect();
+        this.connectArrows();
+        this.connectGrid();
         this.show();
     }
 
     loadPage() {
         $("#title").text("Gregorian Calendar");
+        for (let i = 0; i < 7; i++) {
+            $(".calendar-container").append(headCellString);
+        }
         $(".head-cell").each(function(index) {
             $(this).text(weekDays[index]);
         });
@@ -113,22 +118,17 @@ export default class Greg extends Calendar {
     setGrid(datesOfMonth) {
         $(".calendar-container .cell").removeClass("cell-disabled");
         $(".calendar-container .cell").each(function(index) {
-            $(this).data(datesOfMonth[index].date);
-            $(this)
-                .find(".cell-value")
-                .text(datesOfMonth[index].date.day);
+            const cell = $(this);
+            cell.data(datesOfMonth[index].date);
+            cell.find(".cell-value").text(datesOfMonth[index].date.day);
 
             if (!datesOfMonth[index].selectable) {
-                $(this).addClass("cell-disabled");
+                cell.addClass("cell-disabled");
             }
 
             const tranqDate = gregToTranq(datesOfMonth[index].date);
-            $(this)
-                .find("#date")
-                .text(Tranq.getDateStr(tranqDate));
-            $(this)
-                .find("#year")
-                .text(Tranq.getYearStr(tranqDate.year));
+            cell.find("#date").text(Tranq.getDateStr(tranqDate));
+            cell.find("#year").text(Tranq.getYearStr(tranqDate.year));
         });
     }
 

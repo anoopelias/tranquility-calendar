@@ -71,6 +71,33 @@ body {
     font-size: 28px;
     cursor: pointer;
 }
+.single-cell {
+    height: ($tile-size*4) + ($tile-size/2) + ($grid-spacing*4);
+    background: #f7d0d0;
+    width: ($field-width - (2*$grid-spacing));
+    border-radius: $grid-border-radius;
+    margin: ($grid-spacing/2);
+    box-shadow: 1px 1px 1px rgba(0, 0, 0, .1);
+    font-size: 28px;
+    cursor: pointer;
+}
+.single-cell .cell-value {
+    font-size: 20px;
+    text-align: center;
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+}
+.single-cell .cell-subtext {
+    font-size: 16px;
+}
+.cell-value-main {
+    line-height: 30px;
+}
+.cell-value-sub {
+    margin-top: 26px;
+    align-self: flex-end;
+}
 .cell-disabled {
     opacity: 0.5;
 }

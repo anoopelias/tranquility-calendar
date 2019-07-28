@@ -6,6 +6,8 @@ export const cellString = `<div class="cell">
         </div>
     </div>`;
 
+export const headCellString = "<div class='head-cell'></div>";
+
 export function getLastDayOfMonth(isLeapYear, month) {
     switch (month) {
         case 1:

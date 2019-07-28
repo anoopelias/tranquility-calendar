@@ -30,6 +30,7 @@ body {
     border-radius: $grid-border-radius;
     padding: ($grid-spacing/2);
     box-shadow: 1px 1px 1px rgba(0, 0, 0, .1);
+    user-select: none;
 }
 .month-container {
     display: flex;
@@ -56,6 +57,7 @@ body {
     height: 32px;
     text-align: center;
     cursor: pointer;
+    user-select: none;
 }
 .cell {
     display: flex;

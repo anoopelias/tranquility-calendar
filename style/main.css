@@ -20,7 +20,8 @@ body {
   background: #b2edce;
   border-radius: 3px;
   padding: 2.5px;
-  box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.1); }
+  box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.1);
+  user-select: none; }
 
 .month-container {
   display: flex;
@@ -44,7 +45,8 @@ body {
   font-size: 18px;
   height: 32px;
   text-align: center;
-  cursor: pointer; }
+  cursor: pointer;
+  user-select: none; }
 
 .cell, .head-cell {
   display: flex;

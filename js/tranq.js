@@ -97,7 +97,7 @@ export default class Tranq extends Calendar {
         date.year = parseInt(splits[1]);
 
         if (isNaN(date.year)) {
-            this.date = Greg.getToday();
+            this.date = Tranq.getToday();
         }
 
         if (splits[2] === "aldrin") {
@@ -107,7 +107,7 @@ export default class Tranq extends Calendar {
         } else {
             date.month = parseInt(splits[2]);
             if (isNaN(date.month)) {
-                this.date = Greg.getToday();
+                this.date = Tranq.getToday();
             }
 
             date.day = parseInt(splits[3]);

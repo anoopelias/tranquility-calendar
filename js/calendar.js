@@ -14,9 +14,9 @@ function switchPage(cal, date) {
 
 function setPage(cal, date) {
     if (cal instanceof Tranq) {
-        setHash(tranq.Tranq.generateHash(date));
+        setHash(Tranq.generateHash(date));
     } else {
-        setHash(greg.Greg.generateHash(date));
+        setHash(Greg.generateHash(date));
     }
 }
 

@@ -133,9 +133,8 @@ export default class Greg extends Calendar {
     }
 
     setYearMonth() {
-        // TODO: Handle AD/BC
         const { year, month } = this.showMonth;
-        $("#month").text(monthNames[month - 1] + ", " + year);
+        $("#month").text(monthNames[month - 1] + ", " + Greg.getYearStr(year));
     }
 
     parseHash(hash) {
@@ -168,7 +167,12 @@ export default class Greg extends Calendar {
     }
 
     static getYearStr(year) {
-        //TODO: Handle AD/BC
+        if (year < 1000 && year > 0) {
+            return year + " AD";
+        } else if (year < 0) {
+            return -year + " BC";
+        }
+
         return year + "";
     }
 

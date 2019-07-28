@@ -30,11 +30,10 @@ function isLeapYear(year) {
 }
 
 export default class Greg extends Calendar {
-    noOfMonths = 12;
-    static name = "greg";
 
     constructor(onSwitch, date) {
         super(onSwitch, date);
+        this.noOfMonths = 12;
     }
 
     load() {
@@ -157,6 +156,10 @@ export default class Greg extends Calendar {
             date.day = undefined;
         }
     }
+
+    static get name() {
+        return "greg";
+    };
 
     static generateHash(date) {
         return Greg.name + "_" + date.year + "_" + date.month + "_" + date.day;

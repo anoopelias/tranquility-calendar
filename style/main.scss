@@ -12,6 +12,12 @@ $tile-size: (($field-width - $grid-spacing * ($grid-row-cells + 1)) / $grid-row-
     justify-content: center;
     align-items: center;
 }
+.user-select-none {
+    user-select: none;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+}
 body {
     background: #f3f1f1;
     margin: 80px 0;
@@ -30,7 +36,8 @@ body {
     border-radius: $grid-border-radius;
     padding: ($grid-spacing/2);
     box-shadow: 1px 1px 1px rgba(0, 0, 0, .1);
-    user-select: none;
+
+    @extend .user-select-none;
 }
 .month-container {
     display: flex;
@@ -57,7 +64,8 @@ body {
     height: 32px;
     text-align: center;
     cursor: pointer;
-    user-select: none;
+
+    @extend .user-select-none;
 }
 .cell {
     display: flex;

@@ -31,11 +31,10 @@ const weekDays = ["Fri", "Sat", "Sun", "Mon", "Tue", "Wed", "Thu"];
 const singleCellValue = `<div class="cell-value-main"></div><div class="cell-value-sub"></div>`;
 
 export default class Tranq extends Calendar {
-    noOfMonths = 14;
-    static name = "tranq";
 
     constructor(date) {
         super(date);
+        this.noOfMonths = 14;
 
         // Amstrong day will be 14th month
         if (this.date.amstrongDay) {
@@ -157,6 +156,11 @@ export default class Tranq extends Calendar {
             }
         }
     }
+
+    // Fields are not supported in Firefox yet
+    static get name() {
+        return "greg";
+    };
 
     static generateHash(date) {
         let hash = Tranq.name + "_" + date.year + "_";

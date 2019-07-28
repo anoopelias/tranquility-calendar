@@ -60,13 +60,6 @@ export default class Calendar {
         });
     }
 
-    setShow() {
-        this.show = {
-            month: this.date.month,
-            year: this.date.year
-        };
-    }
-
     showDay() {
         return (
             this.date.year === this.showMonth.year &&

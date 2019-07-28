@@ -159,7 +159,7 @@ export default class Tranq extends Calendar {
 
     // Fields are not supported in Firefox yet
     static get name() {
-        return "greg";
+        return "tranq";
     };
 
     static generateHash(date) {

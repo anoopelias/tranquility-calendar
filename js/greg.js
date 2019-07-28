@@ -31,8 +31,8 @@ function isLeapYear(year) {
 
 export default class Greg extends Calendar {
 
-    constructor(onSwitch, date) {
-        super(onSwitch, date);
+    constructor(date) {
+        super(date);
         this.noOfMonths = 12;
     }
 

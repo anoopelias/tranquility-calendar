@@ -6,7 +6,7 @@ export const cellString = `<div class="cell">
         </div>
     </div>`;
 
-export function getLastDateOfMonth(isLeapYear, month) {
+export function getLastDayOfMonth(isLeapYear, month) {
     switch (month) {
         case 1:
         case 3:
@@ -46,7 +46,7 @@ function generateGregTranqLookupTables() {
 
     for (let i = 1; i <= 12; i++) {
         const months = [];
-        for (let j = 1; j <= getLastDateOfMonth(true, i); j++) {
+        for (let j = 1; j <= getLastDayOfMonth(true, i); j++) {
             tranqLookup[month - 1][day - 1] = {
                 month: i,
                 day: j,
@@ -88,4 +88,110 @@ function generateGregTranqLookupTables() {
         greg: gregLookup,
         tranq: tranqLookup
     };
+}
+
+function tranqToGregYear(tranqYear) {
+    // For year conversion, look at the sample below,
+    //
+    // Strart       End
+    // 21 Jul 67 to 20 Jul 68       -2L
+    // 21 Jul 68 to 20 Jul 69       -1
+    // 21 Jul 69 to 20 Jul 70       1
+    // 21 Jul 70 to 20 Jul 71       2
+    // 21 Jul 71 to 20 Jul 72       3L
+    //
+    // This function returns the Gregorian year as of
+    // new year of the input Tranquility year
+    //
+    // Input        Output
+    // -2           1967
+    // -1           1968
+    // 1            1969
+    // 2            1970
+    //
+
+    let gregYear = tranqYear + 1969;
+    if (tranqYear >= 1) {
+        gregYear--;
+    }
+
+    return gregYear;
+}
+
+export function tranqToGreg(date) {
+    let lookupTable;
+    let gregDate;
+
+    if (date.aldrinDay) {
+        gregDate = {
+            month: 2,
+            day: 29,
+            secondHalfYear: true
+        };
+    } else if (date.amstrongDay) {
+        gregDate = {
+            month: 7,
+            day: 20,
+            secondHalfYear: true
+        };
+    } else {
+        // Do a shallow copy since the object could be changed
+        //
+        // Lookup table is same for normal year and leap year
+        //
+        gregDate = Object.assign(
+            {},
+            lookups.tranq[date.month - 1][date.day - 1]
+        );
+    }
+
+    gregDate.year = tranqToGregYear(date.year);
+    if (gregDate.secondHalfYear) {
+        gregDate.year++;
+    }
+
+    return gregDate;
+}
+
+function gregToTranqYear(gregYear) {
+    // For year conversion, look at the sample below,
+    //
+    // 67-68       -2L
+    // 68-69       -1
+    // 69-70       1
+    // 70-71       2
+    // 71-72       3L
+    // 72-73       4
+    // 69-70       5
+    // 70-71       6
+    // 71-72       7L
+    // 72-73       8
+    //
+    // L - is a leap year
+    // Please note that there is no '0' Tranq year
+    //
+    // Output Tranquility year is the year when the input Gregorian year ends.
+    //
+
+    let tranqYear = gregYear - 1969;
+    if (gregYear >= 1969) {
+        tranqYear++;
+    }
+
+    return tranqYear;
+}
+
+export function gregToTranq(date) {
+    // Do a shallow copy since the object could be changed
+    const tranqDate = Object.assign(
+        {},
+        lookups.greg[date.month - 1][date.day - 1]
+    );
+
+    tranqDate.year = gregToTranqYear(date.year);
+    if (!tranqDate.secondHalfYear) {
+        tranqDate.year = tranqDate.year === 1 ? -1 : tranqDate.year - 1;
+    }
+
+    return tranqDate;
 }

@@ -1,18 +1,19 @@
-import * as greg from "./greg.js";
-import * as tranq from "./tranq.js";
+import { tranqToGreg, gregToTranq } from "./common.js";
+import Greg from "./greg.js";
+import Tranq from "./tranq.js";
 
 function switchPage(cal, date) {
-    if (cal instanceof tranq.Tranq) {
-        const newDate = tranq.toGreg(date);
-        setHash(greg.Greg.generateHash(newDate));
+    if (cal instanceof Tranq) {
+        const newDate = tranqToGreg(date);
+        setHash(Greg.generateHash(newDate));
     } else {
-        const newDate = greg.toTranq(date);
-        setHash(tranq.Tranq.generateHash(newDate));
+        const newDate = gregToTranq(date);
+        setHash(Tranq.generateHash(newDate));
     }
 }
 
 function setPage(cal, date) {
-    if (cal instanceof tranq.Tranq) {
+    if (cal instanceof Tranq) {
         setHash(tranq.Tranq.generateHash(date));
     } else {
         setHash(greg.Greg.generateHash(date));
@@ -67,8 +68,10 @@ export default class Calendar {
     }
 
     showDay() {
-        const { year, month } = this.showMonth;
-        return this.date.year === year && this.date.month === month;
+        return (
+            this.date.year === this.showMonth.year &&
+            this.date.month === this.showMonth.month
+        );
     }
 
     getNextMonth() {

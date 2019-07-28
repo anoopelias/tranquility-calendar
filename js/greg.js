@@ -1,5 +1,10 @@
-import { getTranqDateStr, getTranqYearStr } from "./tranq.js";
-import { cellString, getLastDateOfMonth, lookups } from "./common.js";
+import {
+    cellString,
+    getLastDayOfMonth,
+    lookups,
+    gregToTranq
+} from "./common.js";
+import Tranq from "./tranq.js";
 import Calendar from "./calendar.js";
 
 const monthNames = [
@@ -19,75 +24,13 @@ const monthNames = [
 
 const weekDays = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
-export function getGregDateStr(date) {
-    return monthNames[date.month - 1] + " " + date.day;
-}
-
-export function getGregYearStr(year) {
-    //TODO: Handle AD/BC
-    return year + "";
-}
-
-function toTranqYear(gregYear) {
-    // For year conversion, look at the sample below,
-    //
-    // 67-68       -2L
-    // 68-69       -1
-    // 69-70       1
-    // 70-71       2
-    // 71-72       3L
-    // 72-73       4
-    // 69-70       5
-    // 70-71       6
-    // 71-72       7L
-    // 72-73       8
-    //
-    // L - is a leap year
-    // Please note that there is no '0' Tranq year
-    //
-    // Output Tranquility year is the year when the input Gregorian year ends.
-    //
-
-    let tranqYear = gregYear - 1969;
-    if (gregYear >= 1969) {
-        tranqYear++;
-    }
-
-    return tranqYear;
-}
-
-export function isLeapYear(year) {
+function isLeapYear(year) {
     return (year % 4 == 0 && year % 100 != 0) || year % 400 == 0;
 }
 
-export function toTranq(date) {
-    // Do a shallow copy since the object could be changed
-    const tranqDate = Object.assign(
-        {},
-        lookups.greg[date.month - 1][date.day - 1]
-    );
-
-    tranqDate.year = toTranqYear(date.year);
-    if (!tranqDate.secondHalfYear) {
-        tranqDate.year = tranqDate.year === 1 ? -1 : tranqDate.year - 1;
-    }
-
-    return tranqDate;
-}
-
-export function getToday() {
-    let today = new Date();
-    return {
-        year: 1900 + today.getYear(),
-        month: today.getMonth() + 1,
-        day: today.getDate()
-    };
-}
-
-export const name = "greg";
-
-export class Greg extends Calendar {
+export default class Greg extends Calendar {
     noOfMonths = 12;
+    static name = "greg";
 
     constructor(onSwitch, date) {
         super(onSwitch, date);
@@ -179,13 +122,13 @@ export class Greg extends Calendar {
                 $(this).addClass("cell-disabled");
             }
 
-            const tranqDate = toTranq(datesOfMonth[index].date);
+            const tranqDate = gregToTranq(datesOfMonth[index].date);
             $(this)
                 .find("#date")
-                .text(getTranqDateStr(tranqDate));
+                .text(Tranq.getDateStr(tranqDate));
             $(this)
                 .find("#year")
-                .text(getTranqYearStr(tranqDate.year));
+                .text(Tranq.getYearStr(tranqDate.year));
         });
     }
 
@@ -201,12 +144,12 @@ export class Greg extends Calendar {
         date.year = parseInt(splits[1]);
 
         if (isNaN(date.year)) {
-            this.date = getToday();
+            this.date = Greg.getToday();
         }
 
         date.month = parseInt(splits[2]);
         if (isNaN(date.month)) {
-            this.date = getToday();
+            this.date = Greg.getToday();
         }
 
         date.day = parseInt(splits[3]);
@@ -217,6 +160,24 @@ export class Greg extends Calendar {
     }
 
     static generateHash(date) {
-        return name + "_" + date.year + "_" + date.month + "_" + date.day;
+        return Greg.name + "_" + date.year + "_" + date.month + "_" + date.day;
+    }
+
+    static getDateStr(date) {
+        return monthNames[date.month - 1] + " " + date.day;
+    }
+
+    static getYearStr(year) {
+        //TODO: Handle AD/BC
+        return year + "";
+    }
+
+    static getToday() {
+        let today = new Date();
+        return {
+            year: 1900 + today.getYear(),
+            month: today.getMonth() + 1,
+            day: today.getDate()
+        };
     }
 }

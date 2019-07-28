@@ -1,5 +1,5 @@
-import { cellString, lookups } from "./common.js";
-import * as greg from "./greg.js";
+import { cellString, lookups, tranqToGreg, gregToTranq } from "./common.js";
+import Greg from "./greg.js";
 import Calendar from "./calendar.js";
 
 const monthNames = [
@@ -20,103 +20,9 @@ const monthNames = [
 
 const weekDays = ["Fri", "Sat", "Sun", "Mon", "Tue", "Wed", "Thu"];
 
-function isLeapYear(year) {
-    // If the Gregorian year corresponding to the second half
-    // of Tranquility year is a leap year, then the Tranquility year
-    // is a leap year. This is because Feb 29/Aldrin day falls in the
-    // second half of Tranquility year.
-    return greg.isLeapYear(toGregYear(year) + 1);
-}
-
-export function toGregYear(tranqYear) {
-    // For year conversion, look at the sample below,
-    //
-    // Strart       End
-    // 21 Jul 67 to 20 Jul 68       -2L
-    // 21 Jul 68 to 20 Jul 69       -1
-    // 21 Jul 69 to 20 Jul 70       1
-    // 21 Jul 70 to 20 Jul 71       2
-    // 21 Jul 71 to 20 Jul 72       3L
-    //
-    // This function returns the Gregorian year as of
-    // new year of the input Tranquility year
-    //
-    // Input        Output
-    // -2           1967
-    // -1           1968
-    // 1            1969
-    // 2            1970
-    //
-
-    let gregYear = tranqYear + 1969;
-    if (tranqYear >= 1) {
-        gregYear--;
-    }
-
-    return gregYear;
-}
-
-export function toGreg(date) {
-    let lookupTable;
-    let gregDate;
-
-    if (date.aldrinDay) {
-        gregDate = {
-            month: 2,
-            day: 29,
-            secondHalfYear: true
-        };
-    } else if (date.amstrongDay) {
-        gregDate = {
-            month: 7,
-            day: 20,
-            secondHalfYear: true
-        };
-    } else {
-        // Do a shallow copy since the object could be changed
-        //
-        // Lookup table is same for normal year and leap year
-        //
-        gregDate = Object.assign(
-            {},
-            lookups.tranq[date.month - 1][date.day - 1]
-        );
-    }
-
-    gregDate.year = toGregYear(date.year);
-    if (gregDate.secondHalfYear) {
-        gregDate.year++;
-    }
-
-    return gregDate;
-}
-
-export function getTranqDateStr(date) {
-    if (date.aldrinDay) {
-        return "Aldrin Day";
-    } else if (date.amstrongDay) {
-        return "Amstrong Day";
-    } else {
-        return monthNames[date.month - 1] + " " + date.day;
-    }
-}
-
-export function getTranqYearStr(year) {
-    if (year > 0) {
-        return year + " AT";
-    } else {
-        return -year + " BT";
-    }
-}
-
-export function getToday() {
-    return greg.toTranq(greg.getToday());
-}
-
-export const name = "tranq";
-
-export class Tranq extends Calendar {
+export default class Tranq extends Calendar {
     noOfMonths = 13;
+    static name = "tranq";
 
     constructor(date) {
         super(date);
@@ -170,19 +76,19 @@ export class Tranq extends Calendar {
                 .find(".cell-value")
                 .text(cellDate.day);
 
-            const gregDate = toGreg(cellDate);
+            const gregDate = tranqToGreg(cellDate);
             $(this)
                 .find("#date")
-                .text(greg.getGregDateStr(gregDate));
+                .text(Greg.getDateStr(gregDate));
             $(this)
                 .find("#year")
-                .text(greg.getGregYearStr(gregDate.year));
+                .text(Greg.getYearStr(gregDate.year));
         });
     }
 
     setYearMonth() {
         const { year, month } = this.showMonth;
-        $("#month").text(monthNames[month - 1] + ", " + getTranqYearStr(year));
+        $("#month").text(monthNames[month - 1] + ", " + Tranq.getYearStr(year));
     }
 
     parseHash(hash) {
@@ -191,7 +97,7 @@ export class Tranq extends Calendar {
         date.year = parseInt(splits[1]);
 
         if (isNaN(date.year)) {
-            this.date = getToday();
+            this.date = Greg.getToday();
         }
 
         if (splits[2] === "aldrin") {
@@ -201,7 +107,7 @@ export class Tranq extends Calendar {
         } else {
             date.month = parseInt(splits[2]);
             if (isNaN(date.month)) {
-                this.date = getToday();
+                this.date = Greg.getToday();
             }
 
             date.day = parseInt(splits[3]);
@@ -213,7 +119,7 @@ export class Tranq extends Calendar {
     }
 
     static generateHash(date) {
-        let hash = name + "_" + date.year + "_";
+        let hash = Tranq.name + "_" + date.year + "_";
         if (date.aldrinDay) {
             hash += "aldrin";
         } else if (date.amstrongDay) {
@@ -223,5 +129,27 @@ export class Tranq extends Calendar {
         }
 
         return hash;
+    }
+
+    static getDateStr(date) {
+        if (date.aldrinDay) {
+            return "Aldrin Day";
+        } else if (date.amstrongDay) {
+            return "Amstrong Day";
+        } else {
+            return monthNames[date.month - 1] + " " + date.day;
+        }
+    }
+
+    static getYearStr(year) {
+        if (year > 0) {
+            return year + " AT";
+        } else {
+            return -year + " BT";
+        }
+    }
+
+    static getToday() {
+        return gregToTranq(Greg.getToday());
     }
 }

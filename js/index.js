@@ -1,5 +1,5 @@
-import * as greg from "./greg.js";
-import * as tranq from "./tranq.js";
+import Greg from "./greg.js";
+import Tranq from "./tranq.js";
 
 (function() {
     $(window).bind("hashchange", function() {
@@ -13,11 +13,11 @@ import * as tranq from "./tranq.js";
 
         // Starts with character '#'
         const hash = window.location.hash.substring(1);
-        if (hash.startsWith(greg.name)) {
-            cal = new greg.Greg(hash);
+        if (hash.startsWith(Greg.name)) {
+            cal = new Greg(hash);
         } else {
             // Default is also tranq
-            cal = new tranq.Tranq(hash);
+            cal = new Tranq(hash);
         }
 
         cal.load();

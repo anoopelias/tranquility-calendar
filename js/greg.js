@@ -65,7 +65,7 @@ export default class Greg extends Calendar {
         const firstDayOfMonth = new Date(year, month - 1, 1).getDay();
         const prevMonth = this.getPrevMonth();
 
-        let lastDateOfPrevMonth = getLastDateOfMonth(
+        let lastDateOfPrevMonth = getLastDayOfMonth(
             isLeapYear(prevMonth.year),
             prevMonth.month
         );
@@ -81,7 +81,7 @@ export default class Greg extends Calendar {
             });
         }
 
-        const lastDateOfThisMonth = getLastDateOfMonth(isLeapYear(year), month);
+        const lastDateOfThisMonth = getLastDayOfMonth(isLeapYear(year), month);
 
         for (let i = 1; i <= lastDateOfThisMonth; i++) {
             datesOfMonth.push({

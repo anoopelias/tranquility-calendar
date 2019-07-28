@@ -4,7 +4,8 @@
   "description": "",
   "main": "js/index.js",
   "scripts": {
-    "prettify": "prettier --tab-width 4 --write js/*.js"
+    "prettify": "prettier --tab-width 4 --write js/*.js",
+    "watch": "node-sass --watch -o style/ style/main.scss"
   },
   "repository": {
     "type": "git",
@@ -17,6 +18,7 @@
   },
   "homepage": "https://github.com/anoopelias/tranquility-calendar#readme",
   "devDependencies": {
+    "node-sass": "^4.12.0",
     "prettier": "^1.18.2"
   }
 }

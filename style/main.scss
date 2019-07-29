@@ -6,6 +6,7 @@ $grid-border-radius: 3px;
 
 // FIXME: 0.01 offset needed for Firefox
 $tile-size: (($field-width - $grid-spacing * ($grid-row-cells + 1)) / $grid-row-cells) - 0.01;
+$tile-width-reduced: (($field-width - $grid-spacing * ($grid-row-cells + 2)) / ($grid-row-cells + 1));
 
 .center-align {
     display: flex;
@@ -136,4 +137,22 @@ body {
     height: $tile-size / 2;
     line-height: $tile-size / 2;
     background: #ffa6a6;
+}
+.leap-month .head-cell {
+    width: $tile-width-reduced
+}
+.leap-month .cell {
+    width: $tile-width-reduced
+}
+.head-cell-empty {
+    @extend .head-cell;
+    opacity: 0;
+}
+.cell-empty {
+    @extend .cell;
+    opacity: 0;
+}
+.aldrin-day {
+    font-size: 18px;
+    text-align: center;
 }

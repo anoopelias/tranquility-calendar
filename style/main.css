@@ -1,4 +1,4 @@
-.center-align, .month-control, .cell-value, .cell-sub-inner, .head-cell {
+.center-align, .month-control, .cell-value, .cell-sub-inner, .head-cell, .head-cell-empty {
   display: flex;
   justify-content: center;
   align-items: center; }
@@ -52,7 +52,7 @@ body {
   text-align: center;
   cursor: pointer; }
 
-.cell, .head-cell {
+.cell, .head-cell, .head-cell-empty, .cell-empty {
   display: flex;
   flex-direction: column;
   height: 94.27571px;
@@ -112,8 +112,24 @@ body {
 .cell-sub-inner {
   margin: 2px; }
 
-.head-cell {
+.head-cell, .head-cell-empty {
   font-size: 16px;
   height: 47.13786px;
   line-height: 47.13786px;
   background: #ffa6a6; }
+
+.leap-month .head-cell, .leap-month .head-cell-empty {
+  width: 81.875px; }
+
+.leap-month .cell, .leap-month .head-cell, .leap-month .head-cell-empty, .leap-month .cell-empty {
+  width: 81.875px; }
+
+.head-cell-empty {
+  opacity: 0; }
+
+.cell-empty {
+  opacity: 0; }
+
+.aldrin-day {
+  font-size: 18px;
+  text-align: center; }

@@ -48,19 +48,35 @@ export default class Calendar {
         });
     }
 
+    connectCell(cell) {
+        const self = this;
+        cell.find(".cell-subtext").click(function() {
+            const date = $(this)
+                .parents(".cell")
+                .data();
+            switchPage(self, date);
+        });
+        cell.find(".cell-value").click(function() {
+            const date = $(this)
+                .parents(".cell")
+                .data();
+            setPage(self, date);
+        });
+    }
+
     connectGrid() {
-        const that = this;
+        const self = this;
         $(".cell-subtext").click(function() {
             const date = $(this)
                 .parents(".cell")
                 .data();
-            switchPage(that, date);
+            switchPage(self, date);
         });
         $(".cell-value").click(function() {
             const date = $(this)
                 .parents(".cell")
                 .data();
-            setPage(that, date);
+            setPage(self, date);
         });
     }
 
@@ -113,9 +129,13 @@ export default class Calendar {
         }
     }
 
+    emptyGrid() {
+        $(".calendar-container").empty();
+        $(".calendar-container").removeClass("leap-month");
+    }
+
     unload() {
-        $(".cell").remove();
-        $(".head-cell").remove();
+        this.emptyGrid();
         $("#next").unbind();
         $("#previous").unbind();
     }

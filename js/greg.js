@@ -25,12 +25,7 @@ const monthNames = [
 
 const weekDays = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
-function isLeapYear(year) {
-    return (year % 4 == 0 && year % 100 != 0) || year % 400 == 0;
-}
-
 export default class Greg extends Calendar {
-
     constructor(date) {
         super(date);
         this.noOfMonths = 12;
@@ -70,7 +65,7 @@ export default class Greg extends Calendar {
         const prevMonth = this.getPrevMonth();
 
         let lastDateOfPrevMonth = getLastDayOfMonth(
-            isLeapYear(prevMonth.year),
+            Greg.isLeapYear(prevMonth.year),
             prevMonth.month
         );
 
@@ -85,7 +80,10 @@ export default class Greg extends Calendar {
             });
         }
 
-        const lastDateOfThisMonth = getLastDayOfMonth(isLeapYear(year), month);
+        const lastDateOfThisMonth = getLastDayOfMonth(
+            Greg.isLeapYear(year),
+            month
+        );
 
         for (let i = 1; i <= lastDateOfThisMonth; i++) {
             datesOfMonth.push({
@@ -159,7 +157,11 @@ export default class Greg extends Calendar {
 
     static get name() {
         return "greg";
-    };
+    }
+
+    static isLeapYear(year) {
+        return (year % 4 == 0 && year % 100 != 0) || year % 400 == 0;
+    }
 
     static generateHash(date) {
         return Greg.name + "_" + date.year + "_" + date.month + "_" + date.day;

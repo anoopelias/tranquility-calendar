@@ -3,7 +3,8 @@ import {
     headCellString,
     lookups,
     tranqToGreg,
-    gregToTranq
+    gregToTranq,
+    tranqToGregYear
 } from "./common.js";
 import Greg from "./greg.js";
 import Calendar from "./calendar.js";
@@ -31,7 +32,6 @@ const weekDays = ["Fri", "Sat", "Sun", "Mon", "Tue", "Wed", "Thu"];
 const singleCellValue = `<div class="cell-value-main"></div><div class="cell-value-sub"></div>`;
 
 export default class Tranq extends Calendar {
-
     constructor(date) {
         super(date);
         this.noOfMonths = 14;
@@ -54,10 +54,18 @@ export default class Tranq extends Calendar {
     }
 
     show() {
-        if (this.showMonth.month === 14) {
+        const { year, month } = this.showMonth;
+
+        if (month === 14) {
             this.setAmstrongDay();
         } else {
             this.setGrid();
+            this.setDay();
+        }
+
+        // In Tranq the leap month is 8 (Hippocrates)
+        if (Tranq.isLeapYear(year) && month === 8) {
+            this.showAldrinDay();
             this.setDay();
         }
 
@@ -65,8 +73,7 @@ export default class Tranq extends Calendar {
     }
 
     setAmstrongDay() {
-        $(".cell").remove();
-        $(".head-cell").remove();
+        this.emptyGrid();
 
         const cell = $(cellString).appendTo(".calendar-container");
         cell.addClass("single-cell");
@@ -80,8 +87,32 @@ export default class Tranq extends Calendar {
         cell.find(".cell-value-sub").text("- Neil Amstrong");
 
         this.setGregDate(cell, cellDate);
+        this.connectCell(cell);
+    }
 
-        this.connectGrid();
+    emptyGrid() {
+        $(".calendar-container").empty();
+        $(".calendar-container").removeClass("leap-month");
+    }
+
+    showAldrinDay() {
+
+        // Insert spaces in the grid
+        $(".calendar-container").addClass("leap-month");
+        $(".head-cell:eq(5)").after(`<div class="head-cell-empty"></div>`);
+        for (let i = 5; i < 20; i += 7) {
+            $(".cell:eq(" + i + ")").after(`<div class="cell-empty"></div>`);
+        }
+
+        // Insert AldrinDay cell
+        const cell = $(cellString).insertAfter(".cell:eq(26)");
+        const date = { ...this.showMonth, aldrinDay: true };
+        cell.data(date);
+        cell.find(".cell-value").text("Aldrin Day");
+        cell.find(".cell-value").addClass("aldrin-day");
+
+        this.setGregDate(cell, date);
+        this.connectCell(cell);
     }
 
     setGregDate(cell, date) {
@@ -93,9 +124,7 @@ export default class Tranq extends Calendar {
     setGrid() {
         const { year, month } = this.showMonth;
 
-        $(".cell").remove();
-        $(".head-cell").remove();
-
+        this.emptyGrid();
         for (let i = 0; i < 7; i++) {
             const headCell = $(headCellString).appendTo(".calendar-container");
             headCell.text(weekDays[i]);
@@ -103,22 +132,29 @@ export default class Tranq extends Calendar {
 
         for (let i = 0; i < 28; i++) {
             const cell = $(cellString).appendTo(".calendar-container");
-            const cellDate = {
+            const date = {
                 year: year,
                 month: month,
                 day: i + 1
             };
-            cell.data(cellDate);
-            cell.find(".cell-value").text(cellDate.day);
 
-            this.setGregDate(cell, cellDate);
+            cell.data(date);
+            cell.find(".cell-value").text(date.day);
+            this.setGregDate(cell, date);
+            this.connectCell(cell);
         }
-        this.connectGrid();
     }
 
     setYearMonth() {
         const { year, month } = this.showMonth;
         $("#month").text(monthNames[month - 1] + ", " + Tranq.getYearStr(year));
+    }
+
+    setDay() {
+        super.setDay();
+        if (this.date.aldrinDay) {
+            $(".cell:eq(27)").addClass("cell-selected");
+        }
     }
 
     showDay() {
@@ -160,7 +196,13 @@ export default class Tranq extends Calendar {
     // Fields are not supported in Firefox yet
     static get name() {
         return "tranq";
-    };
+    }
+
+    static isLeapYear(year) {
+        // Since Tranq year is July to July, it is a leap
+        // year if the next Greg year is a leap year.
+        return Greg.isLeapYear(tranqToGregYear(year) + 1);
+    }
 
     static generateHash(date) {
         let hash = Tranq.name + "_" + date.year + "_";

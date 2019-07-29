@@ -92,7 +92,7 @@ function generateGregTranqLookupTables() {
     };
 }
 
-function tranqToGregYear(tranqYear) {
+export function tranqToGregYear(tranqYear) {
     // For year conversion, look at the sample below,
     //
     // Strart       End

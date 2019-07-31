@@ -2,7 +2,11 @@ import { tranqToGreg, gregToTranq } from "./common.js";
 import Greg from "./greg.js";
 import Tranq from "./tranq.js";
 
-function switchPage(cal, date) {
+function onSubTextClick(cal) {
+    const date = $(this)
+        .parents(".cell")
+        .data();
+
     if (cal instanceof Tranq) {
         const newDate = tranqToGreg(date);
         setHash(Greg.generateHash(newDate));
@@ -12,7 +16,11 @@ function switchPage(cal, date) {
     }
 }
 
-function setPage(cal, date) {
+function onValueClick(cal) {
+    const date = $(this)
+        .parents(".cell")
+        .data();
+
     if (cal instanceof Tranq) {
         setHash(Tranq.generateHash(date));
     } else {
@@ -51,32 +59,20 @@ export default class Calendar {
     connectCell(cell) {
         const self = this;
         cell.find(".cell-subtext").click(function() {
-            const date = $(this)
-                .parents(".cell")
-                .data();
-            switchPage(self, date);
+            onSubTextClick.call(this, self);
         });
         cell.find(".cell-value").click(function() {
-            const date = $(this)
-                .parents(".cell")
-                .data();
-            setPage(self, date);
+            onValueClick.call(this, self);
         });
     }
 
     connectGrid() {
         const self = this;
         $(".cell-subtext").click(function() {
-            const date = $(this)
-                .parents(".cell")
-                .data();
-            switchPage(self, date);
+            onSubTextClick.call(this, self);
         });
         $(".cell-value").click(function() {
-            const date = $(this)
-                .parents(".cell")
-                .data();
-            setPage(self, date);
+            onValueClick.call(this, self);
         });
     }
 

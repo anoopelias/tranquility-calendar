@@ -60,15 +60,19 @@ export default class Tranq extends Calendar {
             this.setAmstrongDay();
         } else {
             this.setGrid();
-            this.setDay();
         }
 
         // In Tranq the leap month is 8 (Hippocrates)
         if (Tranq.isLeapYear(year) && month === 8) {
-            this.showAldrinDay();
-            this.setDay();
+            if (this.date.year === year && this.date.aldrinDay) {
+                this.showAldrinDay();
+            } else {
+                this.showAldrinButton();
+            }
         }
 
+        // TODO: How will setDay behave in Amstrong day?
+        this.setDay();
         this.setYearMonth();
     }
 
@@ -113,6 +117,15 @@ export default class Tranq extends Calendar {
 
         this.setGregDate(cell, date);
         this.connectCell(cell);
+    }
+
+    showAldrinButton() {
+        const self = this;
+        const button = $(`<div class="aldrin-day-button">Aldrin Day</div>`).appendTo(".cell:eq(26)");
+        button.click(function() {
+            $(this).hide();
+            self.showAldrinDay();
+        });
     }
 
     setGregDate(cell, date) {

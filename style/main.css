@@ -133,3 +133,21 @@ body {
 .aldrin-day {
   font-size: 18px;
   text-align: center; }
+
+.aldrin-day-button {
+  border: 1px solid #90D1AE;
+  box-shadow: 1px 2px 3px rgba(0, 0, 0, 0.2);
+  height: 24px;
+  line-height: 24px;
+  text-align: center;
+  font-size: 12px;
+  width: 66px;
+  margin-left: 63.77571px;
+  margin-top: 33.13786px;
+  position: absolute;
+  background-color: #bee8d2;
+  background-image: linear-gradient(to bottom, #bee8d2, #7DFFBC); }
+
+.aldrin-day-button:hover {
+  background-color: #98dbb8;
+  background-image: linear-gradient(to bottom, #98dbb8, #4affa2); }

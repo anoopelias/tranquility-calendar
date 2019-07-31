@@ -119,10 +119,10 @@ body {
   background: #ffa6a6; }
 
 .leap-month .head-cell, .leap-month .head-cell-empty {
-  width: 81.875px; }
+  width: 81.865px; }
 
 .leap-month .cell, .leap-month .head-cell, .leap-month .head-cell-empty, .leap-month .cell-empty {
-  width: 81.875px; }
+  width: 81.865px; }
 
 .head-cell-empty {
   opacity: 0; }

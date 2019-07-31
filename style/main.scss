@@ -6,7 +6,7 @@ $grid-border-radius: 3px;
 
 // FIXME: 0.01 offset needed for Firefox
 $tile-size: (($field-width - $grid-spacing * ($grid-row-cells + 1)) / $grid-row-cells) - 0.01;
-$tile-width-reduced: (($field-width - $grid-spacing * ($grid-row-cells + 2)) / ($grid-row-cells + 1));
+$tile-width-reduced: (($field-width - $grid-spacing * ($grid-row-cells + 2)) / ($grid-row-cells + 1)) - 0.01;
 
 .center-align {
     display: flex;

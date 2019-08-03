@@ -6,7 +6,6 @@ $grid-border-radius: 3px;
 
 // FIXME: 0.01 offset needed for Firefox
 $tile-size: (($field-width - $grid-spacing * ($grid-row-cells + 1)) / $grid-row-cells) - 0.01;
-$tile-width-reduced: (($field-width - $grid-spacing * ($grid-row-cells + 2)) / ($grid-row-cells + 1)) - 0.01;
 
 .center-align {
     display: flex;
@@ -32,7 +31,6 @@ body {
 .calendar-container {
     display: flex;
     flex-wrap: wrap;
-    justify-content: center;
     background: #b2edce;
     border-radius: $grid-border-radius;
     padding: ($grid-spacing/2);
@@ -138,12 +136,6 @@ body {
     line-height: $tile-size / 2;
     background: #ffa6a6;
 }
-.leap-month .head-cell {
-    width: $tile-width-reduced
-}
-.leap-month .cell {
-    width: $tile-width-reduced
-}
 .head-cell-empty {
     @extend .head-cell;
     opacity: 0;
@@ -153,7 +145,17 @@ body {
     opacity: 0;
 }
 .aldrin-day {
-    font-size: 18px;
+    position: absolute;
+    margin-left: ($tile-size * 5) + ($grid-spacing * 5) + ($tile-size / 2);
+    margin-top: ($tile-size * 3) + ($grid-spacing * 4) + ($tile-size / 2) + ($grid-spacing / 2);
+    background: #bee8d2;
+    box-shadow: -10px -10px 20px #8f9692, 10px 10px 20px #8f9692;
+}
+.aldrin-day.cell-selected {
+    background: #c9ffe4;
+}
+.aldrin-day .cell-value {
+    font-size: 16px;
     text-align: center;
 }
 .aldrin-day-button {

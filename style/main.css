@@ -22,7 +22,6 @@ body {
 .calendar-container {
   display: flex;
   flex-wrap: wrap;
-  justify-content: center;
   background: #b2edce;
   border-radius: 3px;
   padding: 2.5px;
@@ -118,12 +117,6 @@ body {
   line-height: 47.13786px;
   background: #ffa6a6; }
 
-.leap-month .head-cell, .leap-month .head-cell-empty {
-  width: 81.865px; }
-
-.leap-month .cell, .leap-month .head-cell, .leap-month .head-cell-empty, .leap-month .cell-empty {
-  width: 81.865px; }
-
 .head-cell-empty {
   opacity: 0; }
 
@@ -131,7 +124,17 @@ body {
   opacity: 0; }
 
 .aldrin-day {
-  font-size: 18px;
+  position: absolute;
+  margin-left: 543.51643px;
+  margin-top: 352.465px;
+  background: #bee8d2;
+  box-shadow: -10px -10px 20px #8f9692, 10px 10px 20px #8f9692; }
+
+.aldrin-day.cell-selected {
+  background: #c9ffe4; }
+
+.aldrin-day .cell-value {
+  font-size: 16px;
   text-align: center; }
 
 .aldrin-day-button {

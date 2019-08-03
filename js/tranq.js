@@ -100,20 +100,14 @@ export default class Tranq extends Calendar {
     }
 
     showAldrinDay() {
-
-        // Insert spaces in the grid
-        $(".calendar-container").addClass("leap-month");
-        $(".head-cell:eq(5)").after(`<div class="head-cell-empty"></div>`);
-        for (let i = 5; i < 20; i += 7) {
-            $(".cell:eq(" + i + ")").after(`<div class="cell-empty"></div>`);
-        }
-
         // Insert AldrinDay cell
-        const cell = $(cellString).insertAfter(".cell:eq(26)");
         const date = { ...this.showMonth, aldrinDay: true };
-        cell.data(date);
+        const cell = $(cellString)
+            .insertAfter(".cell:eq(26)")
+            .data(date)
+            .addClass("aldrin-day");
+
         cell.find(".cell-value").text("Aldrin Day");
-        cell.find(".cell-value").addClass("aldrin-day");
 
         this.setGregDate(cell, date);
         this.connectCell(cell);
@@ -121,11 +115,12 @@ export default class Tranq extends Calendar {
 
     showAldrinButton() {
         const self = this;
-        const button = $(`<div class="aldrin-day-button">Aldrin Day</div>`).appendTo(".cell:eq(26)");
-        button.click(function() {
-            $(this).hide();
-            self.showAldrinDay();
-        });
+        $(`<div class="aldrin-day-button">Aldrin Day</div>`)
+            .appendTo(".cell:eq(26)")
+            .click(function() {
+                $(this).hide();
+                self.showAldrinDay();
+            });
     }
 
     setGregDate(cell, date) {

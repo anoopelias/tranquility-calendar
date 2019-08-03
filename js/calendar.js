@@ -126,8 +126,9 @@ export default class Calendar {
     }
 
     emptyGrid() {
-        $(".calendar-container").empty();
-        $(".calendar-container").removeClass("leap-month");
+        $(".calendar-container")
+            .empty()
+            .removeClass("leap-month");
     }
 
     unload() {

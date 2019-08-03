@@ -93,12 +93,6 @@ export default class Tranq extends Calendar {
         this.connectCell(cell);
     }
 
-    emptyGrid() {
-        $(".calendar-container")
-            .empty()
-            .removeClass("leap-month");
-    }
-
     showAldrinDay() {
         // Insert AldrinDay cell
         const cell = $(cellString)

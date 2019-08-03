@@ -160,7 +160,11 @@ export default class Tranq extends Calendar {
 
     setDay() {
         super.setDay();
-        if (this.date.aldrinDay) {
+        if (
+            this.date.aldrinDay &&
+            this.date.year === this.showMonth.year &&
+            this.showMonth.month === 8
+        ) {
             $(".cell:eq(27)").addClass("cell-selected");
         }
     }

@@ -111,12 +111,12 @@ export default class Calendar {
     }
 
     setDay() {
-        $(".calendar-container .cell").removeClass("cell-selected");
+        $(".cell").removeClass("cell-selected");
         if (this.showDay()) {
             const month = this.showMonth.month;
             const day = this.date.day;
 
-            $(".calendar-container .cell")
+            $(".cell")
                 .filter(function(index) {
                     let date = $(this).data();
                     return date.month === month && date.day === day;

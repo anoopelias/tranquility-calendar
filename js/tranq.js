@@ -71,7 +71,6 @@ export default class Tranq extends Calendar {
             }
         }
 
-        // TODO: How will setDay behave in Amstrong day?
         this.setDay();
         this.setYearMonth();
     }
@@ -79,37 +78,37 @@ export default class Tranq extends Calendar {
     setAmstrongDay() {
         this.emptyGrid();
 
-        const cell = $(cellString).appendTo(".calendar-container");
-        cell.addClass("single-cell");
-        let cellDate = {
-            year: this.showMonth.year,
-            amstrongDay: true
-        };
-        cell.data(cellDate);
+        const cell = $(cellString)
+            .appendTo(".calendar-container")
+            .addClass("single-cell")
+            .data({
+                year: this.showMonth.year,
+                amstrongDay: true
+            });
         cell.find(".cell-value").html(singleCellValue);
         cell.find(".cell-value-main").text(randomAmstrong());
         cell.find(".cell-value-sub").text("- Neil Amstrong");
 
-        this.setGregDate(cell, cellDate);
+        this.setGregDate(cell);
         this.connectCell(cell);
     }
 
     emptyGrid() {
-        $(".calendar-container").empty();
-        $(".calendar-container").removeClass("leap-month");
+        $(".calendar-container")
+            .empty()
+            .removeClass("leap-month");
     }
 
     showAldrinDay() {
         // Insert AldrinDay cell
-        const date = { ...this.showMonth, aldrinDay: true };
         const cell = $(cellString)
             .insertAfter(".cell:eq(26)")
-            .data(date)
+            .data({ ...this.showMonth, aldrinDay: true })
             .addClass("aldrin-day");
 
         cell.find(".cell-value").text("Aldrin Day");
 
-        this.setGregDate(cell, date);
+        this.setGregDate(cell);
         this.connectCell(cell);
     }
 
@@ -123,8 +122,8 @@ export default class Tranq extends Calendar {
             });
     }
 
-    setGregDate(cell, date) {
-        const gregDate = tranqToGreg(date);
+    setGregDate(cell) {
+        const gregDate = tranqToGreg(cell.data());
         cell.find("#date").text(Greg.getDateStr(gregDate));
         cell.find("#year").text(Greg.getYearStr(gregDate.year));
     }
@@ -134,21 +133,22 @@ export default class Tranq extends Calendar {
 
         this.emptyGrid();
         for (let i = 0; i < 7; i++) {
-            const headCell = $(headCellString).appendTo(".calendar-container");
-            headCell.text(weekDays[i]);
+            $(headCellString)
+                .appendTo(".calendar-container")
+                .text(weekDays[i]);
         }
 
         for (let i = 0; i < 28; i++) {
-            const cell = $(cellString).appendTo(".calendar-container");
             const date = {
                 year: year,
                 month: month,
                 day: i + 1
             };
-
-            cell.data(date);
+            const cell = $(cellString)
+                .appendTo(".calendar-container")
+                .data(date);
             cell.find(".cell-value").text(date.day);
-            this.setGregDate(cell, date);
+            this.setGregDate(cell);
             this.connectCell(cell);
         }
     }

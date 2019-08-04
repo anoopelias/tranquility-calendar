@@ -33,7 +33,7 @@ body {
   justify-content: space-between;
   align-items: center;
   background: #d5f2e3;
-  height: 40px;
+  height: 31.42524px;
   margin-bottom: 10px;
   border-radius: 3px;
   box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.1);
@@ -45,9 +45,9 @@ body {
   border-radius: 3px;
   box-shadow: 1px 2px 3px rgba(0, 0, 0, 0.2);
   color: #f3f1f1;
-  width: 40px;
-  font-size: 18px;
-  height: 32px;
+  width: 32px;
+  font-size: 14px;
+  height: 21.42524px;
   text-align: center;
   cursor: pointer; }
 

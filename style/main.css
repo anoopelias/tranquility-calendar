@@ -226,4 +226,8 @@ hr {
   .aldrin-day-button {
     border: 0px;
     height: 18px;
-    width: 62px; } }
+    width: 62px; }
+  .details {
+    margin-top: 30px;
+    font-size: 12px;
+    line-height: 20px; } }

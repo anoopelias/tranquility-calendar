@@ -2,9 +2,7 @@ import Greg from "./greg.js";
 import Tranq from "./tranq.js";
 
 (function() {
-    $(window).bind("hashchange", function() {
-        init();
-    });
+    $(window).bind("hashchange", init);
 
     function init() {
         if (cal) {

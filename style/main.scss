@@ -1,10 +1,5 @@
-$field-width: 700px;
-$grid-spacing: 5px;
 $grid-row-cells: 7;
 $grid-border-radius: 3px;
-
-// FIXME: 0.01 offset needed for Firefox
-$tile-size: (($field-width - $grid-spacing * ($grid-row-cells + 1)) / $grid-row-cells) - 0.01;
 
 .center-align {
     display: flex;
@@ -25,14 +20,12 @@ body {
 }
 .container {
     margin: 0 auto;
-    width: $field-width;
 }
 .calendar-container {
     display: flex;
     flex-wrap: wrap;
     background: #b2edce;
     border-radius: $grid-border-radius;
-    padding: ($grid-spacing/2);
     box-shadow: 1px 1px 1px rgba(0, 0, 0, .1);
 
     @extend .user-select-none;
@@ -42,8 +35,8 @@ body {
     flex-wrap: wrap;
     justify-content: space-between;
     align-items: center;
+    height: 40px;
     background: #d5f2e3;
-    height: ($tile-size / 3);
     margin-bottom: 10px;
     border-radius: $grid-border-radius;
     box-shadow: 1px 1px 1px rgba(0, 0, 0, .1);
@@ -51,15 +44,14 @@ body {
 }
 .month-control {
     @extend .center-align;
-    margin: 0 $grid-spacing 0 $grid-spacing;
+    height: 30px;
     background: #c47070;
     border-radius: $grid-border-radius;
     // Bigger shadow since this is clickable
     box-shadow: 1px 2px 3px rgba(0, 0, 0, .2);
     color: #f3f1f1;
-    width: 32px;
+    width: 40px;
     font-size: 14px;
-    height: ($tile-size / 3) - ($grid-spacing * 2);
     text-align: center;
     cursor: pointer;
 
@@ -68,21 +60,15 @@ body {
 .cell {
     display: flex;
     flex-direction: column;
-    height: $tile-size;
     background: #f7d0d0;
-    width: $tile-size;
     border-radius: $grid-border-radius;
-    margin: ($grid-spacing/2);
     box-shadow: 1px 1px 1px rgba(0, 0, 0, .1);
     font-size: 28px;
     cursor: pointer;
 }
 .single-cell {
-    height: ($tile-size*4) + ($tile-size/2) + ($grid-spacing*4);
     background: #f7d0d0;
-    width: ($field-width - (2*$grid-spacing));
     border-radius: $grid-border-radius;
-    margin: ($grid-spacing/2);
     box-shadow: 1px 1px 1px rgba(0, 0, 0, .1);
     font-size: 28px;
     cursor: pointer;
@@ -131,22 +117,10 @@ body {
     @extend .cell;
     @extend .center-align;
     font-size: 16px;
-    height: $tile-size / 2;
-    line-height: $tile-size / 2;
     background: #ffa6a6;
-}
-.head-cell-empty {
-    @extend .head-cell;
-    opacity: 0;
-}
-.cell-empty {
-    @extend .cell;
-    opacity: 0;
 }
 .aldrin-day {
     position: absolute;
-    margin-left: ($tile-size * 5) + ($grid-spacing * 5) + ($tile-size / 2);
-    margin-top: ($tile-size * 3) + ($grid-spacing * 4) + ($tile-size / 2) + ($grid-spacing / 2);
     background: #bee8d2;
     box-shadow: -10px -10px 20px #8f9692, 10px 10px 20px #8f9692;
 }
@@ -165,8 +139,6 @@ body {
     text-align: center;
     font-size: 12px;
     width: 66px;
-    margin-left: ($tile-size + ($grid-spacing / 2)) - 33;
-    margin-top: ($tile-size / 2) - 14;
     position: absolute;
     background-color: #bee8d2;
     background-image: linear-gradient(to bottom, #bee8d2, #7DFFBC);
@@ -174,4 +146,73 @@ body {
 .aldrin-day-button:hover {
     background-color: #98dbb8;
     background-image: linear-gradient(to bottom, #98dbb8, #4affa2);
+}
+
+// Responsive
+@mixin grid-size($field-width, $grid-spacing) {
+    // FIXME: 0.01 offset needed for Firefox
+    $tile-size: (($field-width - $grid-spacing * ($grid-row-cells + 1)) / $grid-row-cells) - 0.01;
+
+    .container {
+        width: $field-width;
+    }
+    .month-control {
+        margin: $grid-spacing;
+    }
+    .calendar-container {
+        border-radius: $grid-border-radius;
+        padding: ($grid-spacing/2);
+    }
+    .cell {
+        height: $tile-size;
+        width: $tile-size;
+        margin: ($grid-spacing/2);
+    }
+    .single-cell {
+        height: ($tile-size*4) + ($tile-size/2) + ($grid-spacing*4);
+        width: ($field-width - (2*$grid-spacing));
+        margin: ($grid-spacing/2);
+    }
+    .head-cell {
+        height: $tile-size / 2;
+        line-height: $tile-size / 2;
+    }
+    .aldrin-day {
+        margin-left: ($tile-size * 5) + ($grid-spacing * 5) + ($tile-size / 2);
+        margin-top: ($tile-size * 3) + ($grid-spacing * 4) + ($tile-size / 2) + ($grid-spacing / 2);
+    }
+    .aldrin-day-button {
+        margin-left: ($tile-size + ($grid-spacing / 2)) - 33;
+        margin-top: ($tile-size / 2) - 14;
+    }
+}
+
+$field-width: 700px;
+$grid-spacing: 5px;
+$mobile-cutoff: ($field-width + 10);
+@include grid-size($field-width, $grid-spacing);
+
+@media screen and (max-width: $mobile-cutoff) {
+    $field-width: 320px;
+    $grid-spacing: 2px;
+    @include grid-size($field-width, $grid-spacing);
+
+    .cell-subtext {
+        display: none;
+    }
+    .cell-value {
+        font-size: 20px;
+    }
+    .head-cell {
+        font-size: 14px;
+    }
+
+    .month-container {
+        font-size: 18px;
+        height: 30px;
+    }
+    .month-control {
+        height: 26px;
+        width: 36px;
+    }
 }

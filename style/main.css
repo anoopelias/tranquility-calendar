@@ -1,4 +1,4 @@
-.center-align, .month-control, .cell-value, .cell-sub-inner, .head-cell, .head-cell-empty {
+.center-align, .month-control, .cell-value, .cell-sub-inner, .head-cell {
   display: flex;
   justify-content: center;
   align-items: center; }
@@ -16,15 +16,13 @@ body {
   color: #735e5e; }
 
 .container {
-  margin: 0 auto;
-  width: 700px; }
+  margin: 0 auto; }
 
 .calendar-container {
   display: flex;
   flex-wrap: wrap;
   background: #b2edce;
   border-radius: 3px;
-  padding: 2.5px;
   box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.1); }
 
 .month-container {
@@ -32,43 +30,36 @@ body {
   flex-wrap: wrap;
   justify-content: space-between;
   align-items: center;
+  height: 40px;
   background: #d5f2e3;
-  height: 31.42524px;
   margin-bottom: 10px;
   border-radius: 3px;
   box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.1);
   font-size: 20px; }
 
 .month-control {
-  margin: 0 5px 0 5px;
+  height: 30px;
   background: #c47070;
   border-radius: 3px;
   box-shadow: 1px 2px 3px rgba(0, 0, 0, 0.2);
   color: #f3f1f1;
-  width: 32px;
+  width: 40px;
   font-size: 14px;
-  height: 21.42524px;
   text-align: center;
   cursor: pointer; }
 
-.cell, .head-cell, .head-cell-empty, .cell-empty {
+.cell, .head-cell {
   display: flex;
   flex-direction: column;
-  height: 94.27571px;
   background: #f7d0d0;
-  width: 94.27571px;
   border-radius: 3px;
-  margin: 2.5px;
   box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.1);
   font-size: 28px;
   cursor: pointer; }
 
 .single-cell {
-  height: 444.24071px;
   background: #f7d0d0;
-  width: 690px;
   border-radius: 3px;
-  margin: 2.5px;
   box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.1);
   font-size: 28px;
   cursor: pointer; }
@@ -111,22 +102,12 @@ body {
 .cell-sub-inner {
   margin: 2px; }
 
-.head-cell, .head-cell-empty {
+.head-cell {
   font-size: 16px;
-  height: 47.13786px;
-  line-height: 47.13786px;
   background: #ffa6a6; }
-
-.head-cell-empty {
-  opacity: 0; }
-
-.cell-empty {
-  opacity: 0; }
 
 .aldrin-day {
   position: absolute;
-  margin-left: 543.51643px;
-  margin-top: 352.465px;
   background: #bee8d2;
   box-shadow: -10px -10px 20px #8f9692, 10px 10px 20px #8f9692; }
 
@@ -145,8 +126,6 @@ body {
   text-align: center;
   font-size: 12px;
   width: 66px;
-  margin-left: 63.77571px;
-  margin-top: 33.13786px;
   position: absolute;
   background-color: #bee8d2;
   background-image: linear-gradient(to bottom, #bee8d2, #7DFFBC); }
@@ -154,3 +133,73 @@ body {
 .aldrin-day-button:hover {
   background-color: #98dbb8;
   background-image: linear-gradient(to bottom, #98dbb8, #4affa2); }
+
+.container {
+  width: 700px; }
+
+.month-control {
+  margin: 5px; }
+
+.calendar-container {
+  border-radius: 3px;
+  padding: 2.5px; }
+
+.cell, .head-cell {
+  height: 94.27571px;
+  width: 94.27571px;
+  margin: 2.5px; }
+
+.single-cell {
+  height: 444.24071px;
+  width: 690px;
+  margin: 2.5px; }
+
+.head-cell {
+  height: 47.13786px;
+  line-height: 47.13786px; }
+
+.aldrin-day {
+  margin-left: 543.51643px;
+  margin-top: 352.465px; }
+
+.aldrin-day-button {
+  margin-left: 63.77571px;
+  margin-top: 33.13786px; }
+
+@media screen and (max-width: 710px) {
+  .container {
+    width: 320px; }
+  .month-control {
+    margin: 2px; }
+  .calendar-container {
+    border-radius: 3px;
+    padding: 1px; }
+  .cell, .head-cell {
+    height: 43.41857px;
+    width: 43.41857px;
+    margin: 1px; }
+  .single-cell {
+    height: 203.38357px;
+    width: 316px;
+    margin: 1px; }
+  .head-cell {
+    height: 21.70929px;
+    line-height: 21.70929px; }
+  .aldrin-day {
+    margin-left: 248.80214px;
+    margin-top: 160.965px; }
+  .aldrin-day-button {
+    margin-left: 11.41857px;
+    margin-top: 7.70929px; }
+  .cell-subtext {
+    display: none; }
+  .cell-value {
+    font-size: 20px; }
+  .head-cell {
+    font-size: 14px; }
+  .month-container {
+    font-size: 18px;
+    height: 30px; }
+  .month-control {
+    height: 26px;
+    width: 36px; } }

@@ -1,4 +1,4 @@
-.center-align, .month-control, .cell-value, .cell-sub-inner, .head-cell {
+.center-align, .month-control, .cell-value, .cell-sub-inner, .head-cell, .aldrin-day-button {
   display: flex;
   justify-content: center;
   align-items: center; }
@@ -163,8 +163,7 @@ body {
   margin-top: 352.465px; }
 
 .aldrin-day-button {
-  margin-left: 63.77571px;
-  margin-top: 33.13786px; }
+  margin-left: 63.77571px; }
 
 @media screen and (max-width: 710px) {
   .container {
@@ -189,8 +188,7 @@ body {
     margin-left: 248.80214px;
     margin-top: 160.965px; }
   .aldrin-day-button {
-    margin-left: 11.41857px;
-    margin-top: 7.70929px; }
+    margin-left: 11.41857px; }
   .cell-subtext {
     display: none; }
   .cell-value {
@@ -208,4 +206,10 @@ body {
   .cell-value-main {
     line-height: 20px; }
   .cell-value-sub {
-    margin-top: 10px; } }
+    margin-top: 10px; }
+  .aldrin-day .cell-value {
+    font-size: 12px; }
+  .aldrin-day-button {
+    border: 0px;
+    height: 18px;
+    width: 60px; } }

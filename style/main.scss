@@ -132,6 +132,7 @@ body {
     text-align: center;
 }
 .aldrin-day-button {
+    @extend .center-align;
     border: 1px solid #90D1AE;
     box-shadow: 1px 2px 3px rgba(0, 0, 0, 0.2);
     height: 24px;
@@ -183,7 +184,6 @@ body {
     }
     .aldrin-day-button {
         margin-left: ($tile-size + ($grid-spacing / 2)) - 33;
-        margin-top: ($tile-size / 2) - 14;
     }
 }
 
@@ -223,5 +223,13 @@ $mobile-cutoff: ($field-width + 10);
     }
     .cell-value-sub {
         margin-top: 10px;
+    }
+    .aldrin-day .cell-value {
+        font-size: 12px;
+    }
+    .aldrin-day-button {
+        border: 0px;
+        height: 18px;
+        width: 60px;
     }
 }

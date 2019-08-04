@@ -199,6 +199,22 @@ export default class Tranq extends Calendar {
         }
     }
 
+    equals(date) {
+        if (this.date.year !== date.year) {
+            return false;
+        } else if (this.date.amstrongDay && date.amstrongDay) {
+            return true;
+        } else if (this.date.aldrinDay && date.aldrinDay) {
+            return true;
+        } else if (this.date.month !== date.month) {
+            return false;
+        } else if (this.date.day !== date.day) {
+            return false;
+        }
+
+        return true;
+    }
+
     // Fields are not supported in Firefox yet
     static get name() {
         return "tranq";

@@ -155,6 +155,18 @@ export default class Greg extends Calendar {
         }
     }
 
+    equals(date) {
+        if (this.date.year !== date.year) {
+            return false;
+        } else if (this.date.month !== date.month) {
+            return false;
+        } else if (this.date.day !== date.day) {
+            return false;
+        }
+
+        return true;
+    }
+
     static get name() {
         return "greg";
     }

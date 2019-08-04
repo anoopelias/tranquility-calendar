@@ -2,7 +2,7 @@ import { tranqToGreg, gregToTranq } from "./common.js";
 import Greg from "./greg.js";
 import Tranq from "./tranq.js";
 
-function onSubTextClick(cal) {
+function switchDate(cal) {
     const date = $(this)
         .parents(".cell")
         .data();
@@ -16,15 +16,19 @@ function onSubTextClick(cal) {
     }
 }
 
-function onValueClick(cal) {
+function loadDate(cal) {
     const date = $(this)
         .parents(".cell")
         .data();
 
-    if (cal instanceof Tranq) {
-        setHash(Tranq.generateHash(date));
+    if (cal.equals(date)) {
+        switchDate.call(this, cal);
     } else {
-        setHash(Greg.generateHash(date));
+        if (cal instanceof Tranq) {
+            setHash(Tranq.generateHash(date));
+        } else {
+            setHash(Greg.generateHash(date));
+        }
     }
 }
 
@@ -59,20 +63,20 @@ export default class Calendar {
     connectCell(cell) {
         const self = this;
         cell.find(".cell-subtext").click(function() {
-            onSubTextClick.call(this, self);
+            switchDate.call(this, self);
         });
         cell.find(".cell-value").click(function() {
-            onValueClick.call(this, self);
+            loadDate.call(this, self);
         });
     }
 
     connectGrid() {
         const self = this;
         $(".cell-subtext").click(function() {
-            onSubTextClick.call(this, self);
+            switchDate.call(this, self);
         });
         $(".cell-value").click(function() {
-            onValueClick.call(this, self);
+            loadDate.call(this, self);
         });
     }
 

@@ -72,10 +72,10 @@ export default class Calendar {
 
     connectGrid() {
         const self = this;
-        $(".cell-subtext").click(function() {
+        $(".cell:not(.cell-disabled) .cell-subtext").click(function() {
             switchDate.call(this, self);
         });
-        $(".cell-value").click(function() {
+        $(".cell:not(.cell-disabled) .cell-value").click(function() {
             loadDate.call(this, self);
         });
     }

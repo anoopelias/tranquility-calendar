@@ -34,7 +34,6 @@ export default class Greg extends Calendar {
     load() {
         this.loadPage();
         this.connectArrows();
-        this.connectGrid();
         this.show();
     }
 
@@ -54,6 +53,7 @@ export default class Greg extends Calendar {
     show() {
         let datesOfMonth = this.getDatesOfMonth();
         this.setGrid(datesOfMonth);
+        this.connectGrid();
         this.setDay();
         this.setYearMonth();
     }

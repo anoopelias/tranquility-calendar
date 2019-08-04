@@ -92,7 +92,8 @@ hr {
   align-self: flex-end; }
 
 .cell-disabled {
-  opacity: 0.5; }
+  opacity: 0.5;
+  cursor: auto; }
 
 .cell-selected {
   background: #ffe1e1; }

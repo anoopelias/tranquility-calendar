@@ -51,12 +51,12 @@ export default class Calendar {
     }
 
     connectArrows() {
-        const that = this;
+        const self = this;
         $("#next").click(function() {
-            that.next();
+            self.next();
         });
         $("#previous").click(function() {
-            that.prev();
+            self.prev();
         });
     }
 

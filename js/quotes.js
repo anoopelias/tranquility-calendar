@@ -17,3 +17,5 @@ const amstrongQuotes = [
 export function randomAmstrong() {
     return amstrongQuotes[Math.floor(Math.random() * amstrongQuotes.length)];
 }
+
+export const moonLanding = `"Houston, Tranquility Base Here. The Eagle Has Landed"`;

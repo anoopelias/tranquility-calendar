@@ -8,7 +8,7 @@ import {
 } from "./common.js";
 import Greg from "./greg.js";
 import Calendar from "./calendar.js";
-import { randomAmstrong } from "./quotes.js";
+import * as quotes from "./quotes.js";
 
 const monthNames = [
     "Archimedes",
@@ -60,6 +60,7 @@ export default class Tranq extends Calendar {
             this.setAmstrongDay();
         } else {
             this.setGrid();
+            this.setYearMonth();
         }
 
         // In Tranq the leap month is 8 (Hippocrates)
@@ -72,7 +73,6 @@ export default class Tranq extends Calendar {
         }
 
         this.setDay();
-        this.setYearMonth();
     }
 
     setAmstrongDay() {
@@ -86,8 +86,16 @@ export default class Tranq extends Calendar {
                 amstrongDay: true
             });
         cell.find(".cell-value").html(singleCellValue);
-        cell.find(".cell-value-main").text(randomAmstrong());
         cell.find(".cell-value-sub").text("- Neil Amstrong");
+
+        if (this.showMonth.year === -1) {
+            // Moon landing day
+            cell.find(".cell-value-main").text(quotes.moonLanding);
+            $("#month").text("Moon Landing Day");
+        } else {
+            cell.find(".cell-value-main").text(quotes.randomAmstrong());
+            this.setYearMonth();
+        }
 
         this.setGregDate(cell);
         this.connectCell(cell);

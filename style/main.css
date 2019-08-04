@@ -202,4 +202,10 @@ body {
     height: 30px; }
   .month-control {
     height: 26px;
-    width: 36px; } }
+    width: 36px; }
+  .single-cell .cell-value {
+    font-size: 14px; }
+  .cell-value-main {
+    line-height: 20px; }
+  .cell-value-sub {
+    margin-top: 10px; } }

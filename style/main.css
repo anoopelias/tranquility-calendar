@@ -205,8 +205,13 @@ hr {
     margin-left: 11.41857px; }
   .cell-subtext {
     display: none; }
+  .single-cell .cell-subtext {
+    display: flex;
+    font-size: 12px; }
   .cell-value {
     font-size: 20px; }
+  .single-cell .cell-value {
+    padding: 15px; }
   .head-cell {
     font-size: 14px; }
   .month-container {

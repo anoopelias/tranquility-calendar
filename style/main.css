@@ -11,9 +11,19 @@
 
 body {
   background: #f3f1f1;
-  margin: 80px 0;
+  margin: 50px 0;
   font-family: "Clear Sans", "Helvetica Neue", Arial, sans-serif;
   color: #735e5e; }
+
+a {
+  color: #735e5e;
+  font-weight: bold; }
+
+hr {
+  border: none;
+  border-bottom: 1px solid #d8d4d0;
+  margin-top: 20px;
+  margin-bottom: 20px; }
 
 .container {
   margin: 0 auto; }
@@ -134,6 +144,10 @@ body {
   background-color: #98dbb8;
   background-image: linear-gradient(to bottom, #98dbb8, #4affa2); }
 
+.details {
+  margin-top: 50px;
+  line-height: 24px; }
+
 .container {
   width: 700px; }
 
@@ -212,4 +226,4 @@ body {
   .aldrin-day-button {
     border: 0px;
     height: 18px;
-    width: 60px; } }
+    width: 62px; } }

@@ -106,12 +106,24 @@ export default class Calendar {
 
     next() {
         this.showMonth = this.getNextMonth();
-        this.show();
+        $(".calendar-container").css("transition", "");
+        $(".calendar-container").css("transform", "translateX(100vw)");
+        this.slideIn();
     }
 
     prev() {
         this.showMonth = this.getPrevMonth();
+        $(".calendar-container").css("transition", "");
+        $(".calendar-container").css("transform", "translateX(-100vw)");
+        this.slideIn();
+    }
+
+    slideIn() {
         this.show();
+        setTimeout(function() {
+            $(".calendar-container").css("transition", "200ms transform");
+            $(".calendar-container").css("transform", "translateX(0vw)");
+        }, 0);
     }
 
     setDay() {

@@ -106,23 +106,26 @@ export default class Calendar {
 
     next() {
         this.showMonth = this.getNextMonth();
-        $(".calendar-container").css("transition", "");
-        $(".calendar-container").css("transform", "translateX(100vw)");
+        $(".calendar-container")
+            .css("transition", "")
+            .css("transform", "translateX(100vw)");
         this.slideIn();
     }
 
     prev() {
         this.showMonth = this.getPrevMonth();
-        $(".calendar-container").css("transition", "");
-        $(".calendar-container").css("transform", "translateX(-100vw)");
+        $(".calendar-container")
+            .css("transition", "")
+            .css("transform", "translateX(-100vw)");
         this.slideIn();
     }
 
     slideIn() {
         this.show();
         setTimeout(function() {
-            $(".calendar-container").css("transition", "200ms transform");
-            $(".calendar-container").css("transform", "translateX(0vw)");
+            $(".calendar-container")
+                .css("transition", "200ms transform")
+                .css("transform", "translateX(0vw)");
         }, 0);
     }
 

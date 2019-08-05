@@ -130,7 +130,7 @@ hr {
   text-align: center; }
 
 .aldrin-day-button {
-  border: 1px solid #90D1AE;
+  border: 1px solid #90d1ae;
   box-shadow: 1px 2px 3px rgba(0, 0, 0, 0.2);
   height: 24px;
   line-height: 24px;
@@ -139,7 +139,7 @@ hr {
   width: 66px;
   position: absolute;
   background-color: #bee8d2;
-  background-image: linear-gradient(to bottom, #bee8d2, #7DFFBC); }
+  background-image: linear-gradient(to bottom, #bee8d2, #7dffbc); }
 
 .aldrin-day-button:hover {
   background-color: #98dbb8;

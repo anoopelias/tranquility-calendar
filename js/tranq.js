@@ -214,9 +214,7 @@ export default class Tranq extends Calendar {
             return true;
         } else if (this.date.aldrinDay && date.aldrinDay) {
             return true;
-        } else if (this.date.month !== date.month) {
-            return false;
-        } else if (this.date.day !== date.day) {
+        } else if (this.date.month !== date.month || this.date.day !== date.day) {
             return false;
         }
 

@@ -106,27 +106,33 @@ export default class Calendar {
 
     next() {
         this.showMonth = this.getNextMonth();
-        $(".calendar-container")
-            .css("transition", "")
-            .css("transform", "translateX(100vw)");
-        this.slideIn();
+        const container = $(".calendar-container");
+        this.show();
+        this.slideFrom("Left");
     }
 
     prev() {
         this.showMonth = this.getPrevMonth();
-        $(".calendar-container")
-            .css("transition", "")
-            .css("transform", "translateX(-100vw)");
-        this.slideIn();
+        this.show();
+        this.slideFrom("Right");
     }
 
-    slideIn() {
-        this.show();
-        setTimeout(function() {
-            $(".calendar-container")
-                .css("transition", "200ms transform")
-                .css("transform", "translateX(0vw)");
-        }, 0);
+    slideFrom(direction) {
+        // Hacky solution for Firefox. See,
+        // https://stackoverflow.com/questions/57372502/restart-css-animation-on-click
+        const container = $(".calendar-container");
+        let directionClass = "si" + direction;
+
+        if (container.hasClass(directionClass)) {
+            directionClass += "2";
+        }
+
+        ([ "siLeft", "siLeft2", "siRight", "siRight2"]).forEach(clazz => {
+            if (clazz !== directionClass) {
+                container.removeClass(clazz);
+            }
+        });
+        container.addClass(directionClass);
     }
 
     setDay() {

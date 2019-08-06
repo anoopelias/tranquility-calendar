@@ -149,6 +149,46 @@ hr {
   margin-top: 50px;
   line-height: 24px; }
 
+.siLeft {
+  animation-name: slideInLeft;
+  animation-duration: 200ms; }
+
+.siLeft2 {
+  animation-name: slideInLeft2;
+  animation-duration: 200ms; }
+
+.siRight {
+  animation-name: slideInRight;
+  animation-duration: 200ms; }
+
+.siRight2 {
+  animation-name: slideInRight2;
+  animation-duration: 200ms; }
+
+@keyframes slideInLeft {
+  from {
+    transform: translateX(100vw); }
+  to {
+    transform: translateX(0vw); } }
+
+@keyframes slideInLeft2 {
+  from {
+    transform: translateX(100vw); }
+  to {
+    transform: translateX(0vw); } }
+
+@keyframes slideInRight {
+  from {
+    transform: translateX(-100vw); }
+  to {
+    transform: translateX(0vw); } }
+
+@keyframes slideInRight2 {
+  from {
+    transform: translateX(-100vw); }
+  to {
+    transform: translateX(0vw); } }
+
 .container {
   width: 700px; }
 

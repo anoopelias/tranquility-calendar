@@ -26,7 +26,8 @@ hr {
   margin-bottom: 20px; }
 
 .container {
-  margin: 0 auto; }
+  margin: 0 auto;
+  display: none; }
 
 .calendar-container {
   display: flex;

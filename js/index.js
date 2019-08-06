@@ -9,6 +9,8 @@ import Tranq from "./tranq.js";
             cal.unload();
         }
 
+        $(".container").show();
+
         // Starts with character '#'
         const hash = window.location.hash.substring(1);
         if (hash.startsWith(Greg.name)) {

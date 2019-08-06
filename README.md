@@ -7,7 +7,7 @@ Please visit the app live [here](https://anoopelias.github.io/tranquility-calend
 
 ## To build from source
 ```
-$ yarn install
-$ yarn watch
+$ npm install
+$ npm run watch
 ```
 And hit http://localhost:8080/tranquility-calendar.

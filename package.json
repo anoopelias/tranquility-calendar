@@ -4,7 +4,7 @@
   "description": "",
   "main": "js/index.js",
   "scripts": {
-    "prettify": "prettier --tab-width 4 --write js/*.js style/*.scss",
+    "prettify": "prettier --tab-width 4 --write js/*.js style/*.scss index.html",
     "watch": "http-server & node-sass --watch -o style/ style/main.scss"
   },
   "repository": {

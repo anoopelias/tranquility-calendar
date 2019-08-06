@@ -183,20 +183,36 @@ hr {
     animation-duration: 200ms;
 }
 @keyframes slideInLeft {
-  from {transform: translateX(100vw)}
-  to {transform: translateX(0vw)}
+    from {
+        transform: translateX(100vw);
+    }
+    to {
+        transform: translateX(0vw);
+    }
 }
 @keyframes slideInLeft2 {
-  from {transform: translateX(100vw)}
-  to {transform: translateX(0vw)}
+    from {
+        transform: translateX(100vw);
+    }
+    to {
+        transform: translateX(0vw);
+    }
 }
 @keyframes slideInRight {
-  from {transform: translateX(-100vw)}
-  to {transform: translateX(0vw)}
+    from {
+        transform: translateX(-100vw);
+    }
+    to {
+        transform: translateX(0vw);
+    }
 }
 @keyframes slideInRight2 {
-  from {transform: translateX(-100vw)}
-  to {transform: translateX(0vw)}
+    from {
+        transform: translateX(-100vw);
+    }
+    to {
+        transform: translateX(0vw);
+    }
 }
 
 // Responsive

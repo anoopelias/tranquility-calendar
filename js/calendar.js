@@ -127,7 +127,7 @@ export default class Calendar {
             directionClass += "2";
         }
 
-        ([ "siLeft", "siLeft2", "siRight", "siRight2"]).forEach(clazz => {
+        ["siLeft", "siLeft2", "siRight", "siRight2"].forEach(clazz => {
             if (clazz !== directionClass) {
                 container.removeClass(clazz);
             }

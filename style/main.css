@@ -98,6 +98,9 @@ hr {
 .cell-selected {
   background: #ffe1e1; }
 
+.single-cell.cell-selected {
+  background: #ffbfbf; }
+
 .cell-value {
   flex-grow: 2;
   font-size: 28px; }

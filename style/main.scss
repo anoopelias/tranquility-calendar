@@ -107,6 +107,9 @@ hr {
 .cell-selected {
     background: #ffe1e1;
 }
+.single-cell.cell-selected {
+    background: #ffbfbf;
+}
 .cell-value {
     @extend .center-align;
     flex-grow: 2;

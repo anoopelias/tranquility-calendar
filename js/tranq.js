@@ -169,6 +169,13 @@ export default class Tranq extends Calendar {
         ) {
             $(".cell:eq(27)").addClass("cell-selected");
         }
+        if (
+            this.date.amstrongDay &&
+            this.date.year === this.showMonth.year &&
+            this.showMonth.month === 14
+        ) {
+            $(".single-cell").addClass("cell-selected");
+        }
     }
 
     showDay() {

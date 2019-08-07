@@ -61,7 +61,7 @@ function generateGregTranqLookupTables() {
                 secondHalfYear: secondHalfYear
             });
 
-            // Amstrong day is last day of the year,
+            // Armstrong day is last day of the year,
             // so reset month and day
             if (month > 13) {
                 months[j - 1].amstrongDay = true;

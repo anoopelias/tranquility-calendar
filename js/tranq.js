@@ -24,7 +24,7 @@ const monthNames = [
     "Kepler",
     "Lavoisier",
     "Mendel",
-    "Amstrong Day"
+    "Armstrong Day"
 ];
 
 const weekDays = ["Fri", "Sat", "Sun", "Mon", "Tue", "Wed", "Thu"];
@@ -36,7 +36,7 @@ export default class Tranq extends Calendar {
         super(date);
         this.noOfMonths = 14;
 
-        // Amstrong day will be 14th month
+        // Armstrong day will be 14th month
         if (this.date.amstrongDay) {
             this.showMonth.month = 14;
         }
@@ -86,7 +86,7 @@ export default class Tranq extends Calendar {
                 amstrongDay: true
             });
         cell.find(".cell-value").html(singleCellValue);
-        cell.find(".cell-value-sub").text("- Neil Amstrong");
+        cell.find(".cell-value-sub").text("- Neil Armstrong");
 
         if (this.showMonth.year === -1) {
             // Moon landing day
@@ -259,7 +259,7 @@ export default class Tranq extends Calendar {
         if (date.aldrinDay) {
             return "Aldrin Day";
         } else if (date.amstrongDay) {
-            return "Amstrong Day";
+            return "Armstrong Day";
         } else {
             return monthNames[date.month - 1] + " " + date.day;
         }

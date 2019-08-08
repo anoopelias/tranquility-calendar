@@ -106,7 +106,6 @@ export default class Calendar {
 
     next() {
         this.showMonth = this.getNextMonth();
-        const container = $(".calendar-container");
         this.show();
         this.slideFrom("Left");
     }
